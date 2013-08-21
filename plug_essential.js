@@ -15,6 +15,7 @@ define('plugEssential/Model', ['app/base/Class'], function (Class) {
             this.proxy = {
                 togglePanel: $.proxy(this.togglePanel, this),
                 onDjAdvance: $.proxy(this.onDjAdvance, this),
+                onUpdateVote: $.proxy(this.onUpdateVote, this),
                 ctrlAutowoot: $.proxy(this.ctrlAutowoot, this),
                 ctrlAutojoin: $.proxy(this.ctrlAutojoin, this),
                 refreshUserlist: $.proxy(this.refreshUserlist, this)
@@ -33,6 +34,7 @@ define('plugEssential/Model', ['app/base/Class'], function (Class) {
             console.log("Closing Plug Essential!");
         },
         initEvents: function () {
+            API.on(API.VOTE_UPDATE, this.proxy.onUpdateVote);
             API.on(API.DJ_ADVANCE, this.proxy.onDjAdvance);
             API.on(API.USER_JOIN, this.proxy.refreshUserlist);
             API.on(API.USER_LEAVE, this.proxy.refreshUserlist);
@@ -86,7 +88,17 @@ define('plugEssential/Model', ['app/base/Class'], function (Class) {
             userlistBody.children().filter(".user-element").remove();
             for (i = 0; i < API.getUsers().length; i++) {
                 var user = API.getUsers()[i];
-                var userElement = $("<div class=\"user-element\" style=\"padding: 3px;\">" + user.username + "</div>").appendTo("#userlist-body");
+                var userRow = $("<div class=\"user-element\" style=\"height: 18px;position: relative;\"></div>").appendTo("#userlist-body");
+                userRow.append("<div class=\"frame-background\" style=\"background-color: #C00;opacity: .0;\"></div>");
+                var userBackground = userRow.find(".frame-background");
+                if (user.vote != 0) {
+                    userBackground.css("opacity", "0.25");
+                    if (user.vote>0) {
+                        userBackground.css("background-color", "#0C0");
+                    }
+                }
+                userRow.append("<span style=\"padding: 3px;position: relative;top: -17px;left: 6px;\">"+user.username+"</span>");
+                var userElement = userRow.find("span");
                 if (user.relationship == 1 || user.relationship == 2) {
                     userElement.css("font-style", "italic");
                 } else if (user.relationship == 3) {
@@ -106,6 +118,9 @@ define('plugEssential/Model', ['app/base/Class'], function (Class) {
             if (this.autojoinActive && API.getBoothPosition() < 0 && API.getWaitListPosition() < 0) {
                 this.doJoin();
             }
+        },
+        onUpdateVote: function () {
+            this.refreshUserlist();
         },
         ctrlAutowoot: function () {
             if (this.autowootActive) {
