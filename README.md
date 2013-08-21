@@ -7,14 +7,14 @@ Features
 ---------
 ### Current
 - Autowoot
+- Autojoin
 - Userlist
     * Colors by rank
     * Font style by relationship
     
 ### Planned
-- Autojoin
 - Advanced userlist
-    * User information on hover
+    * Detailed user information
     * Chat mention on click
     * User filter (friends, strangers, meh-hers, wooters)
 - Estimated time until playing
