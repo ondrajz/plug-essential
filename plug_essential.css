@@ -1,0 +1,101 @@
+#pe_control-panel-btn {
+    position: absolute;
+    height: 30px;
+    width: 32px;
+    top: 288px;
+    z-index: 15;
+    padding: 0;
+    cursor: pointer;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAeCAYAAABNChwpAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANpJREFUeNrslr0NwyAQhY8kRTrEALigtieg9E4oEjWLuPIi3oApqOIJnBxSpETCDhBFNPcakDj0Pn6egCmlOADcoZFO0FgEQAAEcCmdoLWGvu+TY+u6wjzP/wVAc2NMcmxZll2AbduAMdbuCFLmdAkJIDsFGL2Xuq7breOcf9R672M0fwaQUoJzLiui0zTFPsYRY/lNZyHE9dnejopwJSEEGMcxa1vR3FqbVZsFUAJRYl4EkANRal4McARRY14FkIKoNa96jN5XjBqGodo8vhH0LScAAmgN8BBgALa+WJ5I3jxIAAAAAElFTkSuQmCC);  
+}
+
+#pe_control-panel {
+    position: absolute;
+    width: 845px;
+    top: 288px;
+    left: 1px;
+    z-index: 10;
+    padding: 0;
+    height: 292px;
+}
+
+#pe_version-box {
+    position: absolute; 
+    padding: 0;
+    display: block;
+    left: 40px;
+    top: 8px;
+    vertical-align: middle;
+}
+
+#pe_userlist-box {
+    position: absolute; 
+    width: 230px; 
+    height: 270px; 
+    padding: 0px;
+    display: block;
+    left: 600px;
+    top: 10px
+}
+
+#pe_userlist-header {
+    top: 0;
+    left: 0;
+    width: 220px;
+}
+
+#pe_userlist-count {
+    float: right;
+    position: relative;
+    color:#BBB;
+    font-size:11px;
+}
+
+#pe_userlist-body {
+    top: 25px; 
+    height: 240px; 
+    width: 100%; 
+    border: 1px solid #252525; 
+    position: absolute; 
+    overflow-y: auto; 
+    overflow-x: hidden; 
+}
+
+.pe_user-element-bg {
+    width: 100%;
+    height: 100%;
+}
+
+.pe_user-element-bg:hover {
+    background-color: #000;
+    opacity: 1;
+}
+
+.pe_control-btn {
+    position: absolute; 
+    width: 90px; 
+    height: 25px; 
+    padding: 0;
+    display: block;
+    left: 20px;
+    text-align: center;
+    border: 1px solid #AAA;
+    cursor: pointer;
+}
+
+#pe_autowoot-btn {
+    top: 65px;
+}
+
+#pe_autojoin-btn {
+    top: 100px;
+}
+
+.pe_user-element {
+    height: 18px;
+    position: relative;
+}
+
+.pe_user-element:hover {
+    background-color: #000;
+}

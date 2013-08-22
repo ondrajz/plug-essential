@@ -26,9 +26,8 @@ Add this piece of code to a bookmark or tampermonkey:
 
 ```javascript
 javascript: (function () {
-    var jsCode = document.createElement('script');
-    jsCode.setAttribute('id', 'plug-ultimate');
-    jsCode.setAttribute('src', 'https://raw.github.com/TrueFurby/plug-essential/master/plug_essential.js');
-    document.body.appendChild(jsCode);
+    var src = "https://raw.github.com/TrueFurby/plug-essential/master";
+    $('body').append('<script id="plug-essential" src='+src+'/plug_essential.js"></script>');
+    $('body').prepend('<link rel="stylesheet" type="text/css" id="plug-essential-css" href='+src+'/plug_essential.css" />')
 }());
 ```
