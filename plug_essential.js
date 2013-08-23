@@ -91,7 +91,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 Config.plug.chatInput.val("@"+user.username+" ");
                 Config.plug.chatInput.focus();
             });
-            if (user.vote != 0) {
+            if (!(typeof(user.vote)==='undefined') && user.vote != 0) {
                 if (user.vote>0) {
                     userRow.find("td").addClass("pe_woot");
                 }else{
