@@ -11,18 +11,18 @@ Features
 - Userlist
     * Colors by rank
     * Font style by relationship
+    * Chat mention link
     
 ### Planned
 - Advanced userlist
     * Detailed user information
-    * Chat mention on click
     * User filter (friends, strangers, meh-hers, wooters)
 - Estimated time until playing
 
 How to use
 ---------
     
-Add this piece of code to a bookmark or tampermonkey:
+Add this piece of code to a bookmark and run it in plug.dj room:
 
 ```javascript
 javascript: (function () {
