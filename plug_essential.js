@@ -112,7 +112,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
         },
         refreshUserlist: function () {
             $("#pe_userlist-count").html(API.getUsers().length + " users");
-            this.userlistTable.children().filter("tr").remove();
+            this.userlistTable.find("tr").remove();
             for (i = 0; i < API.getUsers().length; i++) {
                 this.addUserItem(API.getUsers()[i]);
             }
