@@ -41,7 +41,7 @@
 #pe_userlist-header {
     top: 0;
     left: 0;
-    width: 220px;
+    width: 216px;
 }
 
 #pe_userlist-count {
@@ -55,20 +55,15 @@
     top: 25px; 
     height: 240px; 
     width: 100%; 
-    border: 1px solid #252525; 
+    border: 1px solid #333; 
     position: absolute; 
     overflow-y: auto; 
     overflow-x: hidden; 
 }
 
-.pe_user-element-bg {
+#pe_userlist-table {
     width: 100%;
-    height: 100%;
-}
-
-.pe_user-element-bg:hover {
-    background-color: #000;
-    opacity: 1;
+    border-spacing: 0 1px;
 }
 
 .pe_control-btn {
@@ -91,11 +86,29 @@
     top: 100px;
 }
 
-.pe_user-element {
-    height: 18px;
-    position: relative;
+.pe_user-row {
+    height: 20px;
 }
 
-.pe_user-element:hover {
-    background-color: #000;
+.pe_woot {
+    background-color: rgba(0,255,0,.2);
+}
+
+.pe_meh {
+    background-color: rgba(255,0,0,.2);
+}
+
+.pe_user-row:hover {
+    background-color: #888;
+}
+
+.pe_user-cell-name {
+    padding: 0;
+    max-width: 160px;
+    overflow-x: hidden;    
+}
+
+.pe_user-cell-extra {
+    width: 45px;   
+    text-align: right;
 }

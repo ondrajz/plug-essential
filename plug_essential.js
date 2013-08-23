@@ -5,7 +5,8 @@ define('plugEssential/Config', {
         roomView: $("#room-view"),
         wootBtn: $("#button-vote-positive"),
         djPlayBtn: $("#button-dj-play"),
-        waitlistJoinBtn: $("#button-dj-waitlist-join")
+        waitlistJoinBtn: $("#button-dj-waitlist-join"),
+        chatInput: $("#chat-input-field")
     }
 });
 
@@ -44,6 +45,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
         },
         close: function () {
             console.log("Closing Plug Essential!");
+            this.controlPanel.remove();
+            this.controlPanelBtn.remove();
         },
         initEvents: function () {
             API.on(API.VOTE_UPDATE, this.proxy.onUpdateVote);
@@ -59,6 +62,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.userlistBox = $("<div id=\"pe_userlist-box\"></div>").appendTo(this.controlPanel);
             this.userlistHeader = $("<div id=\"pe_userlist-header\" class=\"meta-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">USERLIST</span><span id=\"pe_userlist-count\">? users</span></div>").appendTo(this.userlistBox);
             this.userlistBody = $("<div id=\"pe_userlist-body\"></div>").appendTo(this.userlistBox);
+            this.userlistTable = $("<table id=\"pe_userlist-table\"><tbody></tbody></table>").appendTo(this.userlistBody);
             this.autowootBtn = $("<div id=\"pe_autowoot-btn\" class=\"pe_control-btn\">\
                 <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
                 <div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
@@ -78,18 +82,23 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             }
         },
         addUserItem: function (user) {
-            var userItem = $("<div class=\"pe_user-element\"></div>").appendTo(this.userlistBody);
-            this.userlist[user.id] = userItem
-            userItem.append("<div class=\"pe_user-element-bg\" style=\"background-color: #C00;opacity: .0;\"></div>");
-            var userBackground = userItem.find(".pe_user-element-bg");
+            var userRow = $("<tr class=\"pe_user-row\"></tr>").appendTo(this.userlistTable);
+            this.userlist[user.id] = userRow
+            var nameCell = $("<td class=\"pe_user-cell-name\"></td>").appendTo(userRow);
+            var extraCell = $("<td class=\"pe_user-cell-extra\"></td>").appendTo(userRow);
+            var mentionBtn = $("<span style=\"cursor: pointer;font-weight: bold;padding: 0 3px;\">@</span>").appendTo(extraCell);
+            mentionBtn.click(function () {
+                Config.plug.chatInput.val("@"+user.username+" ");
+                Config.plug.chatInput.focus();
+            });
             if (user.vote != 0) {
-                userBackground.css("opacity", "0.25");
                 if (user.vote>0) {
-                    userBackground.css("background-color", "#0C0");
+                    userRow.find("td").addClass("pe_woot");
+                }else{
+                    userRow.find("td").addClass("pe_meh");
                 }
             }
-            userItem.append("<span style=\"padding: 3px;position: relative;top: -17px;left: 6px;\">"+user.username+"</span>");
-            var userElement = userItem.find("span");
+            var userElement = $("<span style=\"padding: 3px;text-shadow: 1px 1px #111;\">"+user.username+"</span>").appendTo(nameCell);
             if (user.relationship == 1 || user.relationship == 2) {
                 userElement.css("font-style", "italic");
             } else if (user.relationship == 3) {
@@ -103,7 +112,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
         },
         refreshUserlist: function () {
             $("#pe_userlist-count").html(API.getUsers().length + " users");
-            this.userlistBody.children().filter(".pe_user-element").remove();
+            this.userlistTable.children().filter("tr").remove();
             for (i = 0; i < API.getUsers().length; i++) {
                 this.addUserItem(API.getUsers()[i]);
             }
@@ -126,13 +135,15 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             }
         },
         onUpdateVote: function (obj) {
-            var userBackground = this.userlist[obj.user.id].find(".pe_user-element-bg");
-            if (obj.user.vote != 0) {
-                userBackground.css("opacity", "0.25");
-                if (obj.user.vote>0) {
-                    userBackground.css("background-color", "#0C0");
+            console.log("update vote: "+obj.user.username, obj.vote);
+            var userRow = this.userlist[obj.user.id];
+            userRow.find("td").removeClass("pe_woot");
+            userRow.find("td").removeClass("pe_meh");
+            if (obj.vote != 0) {
+                if (obj.vote>0) {
+                    userRow.find("td").addClass("pe_woot");
                 }else{
-                    userBackground.css("background-color", "#C00");
+                    userRow.find("td").addClass("pe_meh");
                 }
             }
         },
@@ -154,7 +165,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 this.autojoinActive = false;
                 this.autojoinBtn.find(".frame-background").css("background-color", "#73A024");
             } else {
-                console.log("autowoot activated!");
+                console.log("autojoin activated!");
                 this.autojoinActive = true;
                 this.doJoin();
                 this.autojoinBtn.find(".frame-background").css("background-color", "#A33A46");
