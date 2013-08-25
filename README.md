@@ -26,7 +26,7 @@ Add this piece of code to a bookmark and run it in plug.dj room:
 
 ```javascript
 javascript: (function () {
-    plugEssentialSrc = "https://raw.github.com/TrueFurby/plug-essential/master";
+    plugEssentialSrc = "http://plug.phoenixlair.com";
     var jsCode = document.createElement('script');
     jsCode.setAttribute('id', 'plug-ultimate');
     jsCode.setAttribute('src', plugEssentialSrc+'/plug_essential.js');

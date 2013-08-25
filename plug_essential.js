@@ -1,4 +1,5 @@
 var plugEssential = false;
+$('body').prepend('<link rel="stylesheet" type="text/css" id="plug-essential-css" href="'+plugEssentialSrc+'/plug_essential.css" />') 
 
 define('plugEssential/Config', { 
     plug: {
@@ -33,10 +34,6 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 onUserLeave: $.proxy(this.onUserLeave, this)
             };
             this.userlist = {}
-            /* FIRST JOIN */
-            if (API.getBoothPosition() < 0 && API.getWaitListPosition() < 0) {
-                console.log("Adding yourself to waitlist/booth: " + API.djJoin());
-            }
             this.autowootActive = false;
             this.autojoinActive = false;
             this.initGui();
@@ -204,6 +201,5 @@ define('plugEssential/Loader', ['app/base/Class', 'plugEssential/Model'], functi
 });
 
 require(['plugEssential/Loader'], function (Loader) {
-    $('body').prepend('<link rel="stylesheet" type="text/css" id="plug-essential-css" href="'+plugEssentialSrc+'/plug_essential.css" />') 
     new Loader();
 });
