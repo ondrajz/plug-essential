@@ -206,7 +206,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.userdetailBody.append("<div style=\" position: absolute; top: 45px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">LISTENER POINTS</span></div>");
             this.userdetailBody.append("<div style=\" position: absolute; top: 80px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">CURATOR POINTS</span></div>");
             this.detailUsername = $("<div class=\"meta-value hnb\" style=\" top: 25px; left: 8px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailRank = $("<div class=\"meta-value hnb\" style=\" top: 66px; left: 8px;\"><span style=\"font-size: 14px;color: #e90e82;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailRank = $("<div class=\"meta-value hnb\" style=\" top: 66px; left: 8px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailJoined = $("<div class=\"meta-value hnb\" style=\" top: 107px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailDjPoints = $("<div class=\"meta-value hnb\" style=\" top: 23px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailListenerPoints = $("<div class=\"meta-value hnb\" style=\" top: 58px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
@@ -242,7 +242,10 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 userElement.css("font-weight", "bold");
                 userElement.addClass("pe_role-you");
             } else {
-                if (user.relationship == 1 || user.relationship == 2) {
+                if (user.relationship == 1) {
+                    userElement.css("font-style", "italic");
+                } else if (user.relationship == 2) {
+                    userElement.css("font-weight", "bold");
                     userElement.css("font-style", "italic");
                 } else if (user.relationship == 3) {
                     userElement.css("font-weight", "bold");
@@ -288,6 +291,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             roleSpan.removeClass("pe_role-admin");
             roleSpan.removeClass("pe_role-ambassador");
             roleSpan.removeClass("pe_role-moderator");
+            roleSpan.removeClass("pe_role-none");
             if (role == API.ROLE.ADMIN) {
                 roleSpan.addClass("pe_role-admin");
             }else if (role == API.ROLE.AMBASSADOR) {
