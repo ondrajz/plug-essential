@@ -220,6 +220,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             }
         },
         addUserItem: function (user) {
+            console.log("adding user: "+user.permission);
             var userRow = $("<tr class=\"pe_user-row\"></tr>").appendTo(this.userlistTable);
             this.userlist[user.id] = userRow
             var nameCell = $("<td class=\"pe_user-cell-name\"></td>").appendTo(userRow);
@@ -237,21 +238,65 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 }
             }
             var userElement = $("<span style=\"padding: 3px;text-shadow: 1px 1px #111;\">"+user.username+"</span>").appendTo(nameCell);
-            if (user.relationship == 1 || user.relationship == 2) {
-                userElement.css("font-style", "italic");
-            } else if (user.relationship == 3) {
+            if (user.id === API.getUser().id) {
                 userElement.css("font-weight", "bold");
+                userElement.addClass("pe_role-you");
             } else {
-                userElement.css("color", "#AAA");
-            }
-            if (user.permission >= 2) {
-                userElement.css("color", "#e90e82");
+                if (user.relationship == 1 || user.relationship == 2) {
+                    userElement.css("font-style", "italic");
+                } else if (user.relationship == 3) {
+                    userElement.css("font-weight", "bold");
+                } else {
+                    userElement.css("opacity", ".5");
+                }
+                var role = user.permission;
+                if (role == API.ROLE.ADMIN) {
+                    userElement.addClass("pe_role-admin");
+                }else if (role == API.ROLE.AMBASSADOR) {
+                    userElement.addClass("pe_role-ambassador");
+                }else if (role >= API.ROLE.FEATUREDDJ) {
+                    userElement.addClass("pe_role-moderator");
+                }else{
+                    userElement.addClass("pe_role-none");
+                }
             }
         },
         refreshUserDetail: function () {
             var user = API.getUser();
             this.detailUsername.find("span").html(user.username);
-            this.detailRank.find("span").html(user.permission);
+            var role = user.permission;
+            var roleSpan = this.detailRank.find("span");
+            if (role == API.ROLE.NONE) {
+                roleSpan.html("None");
+            } else if (role == API.ROLE.FEATUREDDJ) {
+                roleSpan.html("Featured DJ");
+            } else if (role == API.ROLE.BOUNCER) {
+                roleSpan.html("Bouncer");
+            } else if (role == API.ROLE.MANAGER) {
+                roleSpan.html("Manager");
+            } else if (role == API.ROLE.COHOST) {
+                roleSpan.html("Co-host");
+            } else if (role == API.ROLE.HOST) {
+                roleSpan.html("Host");
+            } else if (role == API.ROLE.AMBASSADOR) {
+                roleSpan.html("Ambassador");
+            } else if (role == API.ROLE.ADMIN) {
+                roleSpan.html("Admin");
+            } else {
+                roleSpan.html(role);
+            }
+            roleSpan.removeClass("pe_role-admin");
+            roleSpan.removeClass("pe_role-ambassador");
+            roleSpan.removeClass("pe_role-moderator");
+            if (role == API.ROLE.ADMIN) {
+                roleSpan.addClass("pe_role-admin");
+            }else if (role == API.ROLE.AMBASSADOR) {
+                roleSpan.addClass("pe_role-ambassador");
+            }else if (role >= API.ROLE.FEATUREDJ) {
+                roleSpan.addClass("pe_role-moderator");
+            }else{
+                roleSpan.addClass("pe_role-none");
+            }
             this.detailJoined.find("span").html(dateFormat(new Date(parseInt(user.id.substring(0,8), 16)*1000), "mmmm dS yyyy"));
             this.detailDjPoints.find("span").html(user.djPoints);
             this.detailListenerPoints.find("span").html(user.listenerPoints);
@@ -273,6 +318,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.userlist[user.id].remove()
         },
         onDjAdvance: function () {
+            this.refreshUserDetail();
             this.refreshUserlist();
             if (this.autowootActive) {
                 this.doWoot();
@@ -282,7 +328,6 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             }
         },
         onUpdateVote: function (obj) {
-            this.refreshUserDetail();
             console.log("update vote: "+obj.user.username, obj.vote);
             var userRow = this.userlist[obj.user.id];
             userRow.find("td").removeClass("pe_woot");

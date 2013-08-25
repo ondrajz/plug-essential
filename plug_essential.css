@@ -136,3 +136,23 @@
     position: absolute;
     background-color: rgba(30, 30, 30, .3);
 }
+
+.pe_role-admin {
+    color: #42a5dc;
+}
+
+.pe_role-ambassador {
+    color: #9a50ff;
+}
+
+.pe_role-moderator {
+    color: #e90e82;
+}
+
+.pe_role-none {
+    color: #B0B0B0;
+}
+
+.pe_role-you {
+    color: #ffdd6f;
+}
