@@ -112,3 +112,27 @@
     width: 45px;   
     text-align: right;
 }
+
+#pe_user-detail-box {
+    top: 10px;
+    left: 320px;
+    position: absolute;
+    width: 260px;
+    height: 270px;
+    padding: 0;
+}
+
+#pe_user-detail-header {
+    top: 0;
+    left: 0;
+    width: 216px;
+}
+
+#pe_user-detail-body {
+    width: 100%;
+    border: 1px solid #333;
+    top: 25px;
+    height: 240px;
+    position: absolute;
+    background-color: rgba(30, 30, 30, .3);
+}
