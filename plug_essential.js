@@ -1,5 +1,4 @@
 var plugEssential = false;
-$('body').prepend('<link rel="stylesheet" type="text/css" id="plug-essential-css" href="'+plugEssentialSrc+'/plug_essential.css" />') 
 
 define('plugEssential/Config', { 
     plug: {
