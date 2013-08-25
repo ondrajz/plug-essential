@@ -204,5 +204,6 @@ define('plugEssential/Loader', ['app/base/Class', 'plugEssential/Model'], functi
 });
 
 require(['plugEssential/Loader'], function (Loader) {
+    $('body').prepend('<link rel="stylesheet" type="text/css" id="plug-essential-css" href="'+plugEssentialSrc+'/plug_essential.css" />') 
     new Loader();
 });
