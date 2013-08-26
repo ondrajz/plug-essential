@@ -200,14 +200,14 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.userdetailHeader = $("<div class=\"meta-header\" id=\"pe_user-detail-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">USER DETAIL</span></div>").appendTo(this.userdetailBox);
             this.userdetailBody = $("<div id=\"pe_user-detail-body\"></div>").appendTo(this.userdetailBox);
             this.userdetailBody.append("<div style=\"position: absolute; top: 6px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">USERNAME</span></div>");
-            this.userdetailBody.append("<div style=\" position: absolute; top: 50px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">RANK</span></div>");
-            this.userdetailBody.append("<div style=\" position: absolute; top: 90px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">JOIN DATE</span></div>");
-            this.userdetailBody.append("<div style=\" position: absolute; top: 10px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">DJ POINTS</span></div>");
-            this.userdetailBody.append("<div style=\" position: absolute; top: 45px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">LISTENER POINTS</span></div>");
-            this.userdetailBody.append("<div style=\" position: absolute; top: 80px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">CURATOR POINTS</span></div>");
-            this.detailUsername = $("<div class=\"meta-value hnb\" style=\" top: 25px; left: 8px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailRank = $("<div class=\"meta-value hnb\" style=\" top: 66px; left: 8px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailJoined = $("<div class=\"meta-value hnb\" style=\" top: 107px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
+            this.userdetailBody.append("<div style=\"position: absolute; top: 50px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">RANK</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 90px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">JOIN DATE</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 10px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">DJ POINTS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 45px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">LISTENER POINTS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 80px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">CURATOR POINTS</span></div>");
+            this.detailUsername = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 25px; left: 8px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailRank = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 66px; left: 8px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailJoined = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 107px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailDjPoints = $("<div class=\"meta-value hnb\" style=\" top: 23px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailListenerPoints = $("<div class=\"meta-value hnb\" style=\" top: 58px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailCuratorPoints = $("<div class=\"meta-value hnb\" style=\" top: 93px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
@@ -237,7 +237,10 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                     userRow.find("td").addClass("pe_meh");
                 }
             }
-            var userElement = $("<span style=\"padding: 3px;text-shadow: 1px 1px #111;\">"+user.username+"</span>").appendTo(nameCell);
+            var userElement = $("<span style=\"padding: 3px;text-shadow: 1px 1px #111;cursor: pointer;\">"+user.username+"</span>").appendTo(nameCell);
+            userElement.click($.proxy(function(){
+                this.refreshUserDetail(user);
+            }, this));
             if (user.id === API.getUser().id) {
                 userElement.css("font-weight", "bold");
                 userElement.addClass("pe_role-you");
@@ -264,8 +267,15 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 }
             }
         },
-        refreshUserDetail: function () {
-            var user = API.getUser();
+        refreshUserDetail: function (user) {
+            if(typeof(this.detailOf) === 'undefined'){
+                this.detailOf = API.getUser().id;
+            }
+            if(typeof(user) === 'undefined'){
+                user = API.getUser(this.detailOf);
+            }else{
+                this.detailOf = user.id;
+            }
             this.detailUsername.find("span").html(user.username);
             var role = user.permission;
             var roleSpan = this.detailRank.find("span");
