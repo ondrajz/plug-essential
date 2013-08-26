@@ -183,6 +183,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
         },
         initGui: function () {
             this.controlPanelBtn = $("<div id=\"pe_control-panel-btn\"></div>").appendTo(Config.plug.roomView);
+            this.controlPanelBtn.addClass("pe_control-panel-btn-close");
             this.controlPanel = $("<div id=\"pe_control-panel\"><div class=\"frame-background\"></div></div>").appendTo(Config.plug.roomView);
             this.controlPanelBtn.click(this.proxy.togglePanel);
             this.versionBox = $("<div id=\"pe_version-box\"><span style=\"font-size: 10px;color: #858585;\">Plug Essential v"+this.version.getString()+"</span></div>").appendTo(this.controlPanel);
@@ -232,8 +233,12 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
         togglePanel: function () {
             if (this.controlPanel.is(":visible")) {
                 this.controlPanel.slideUp();
+                this.controlPanelBtn.addClass("pe_control-panel-btn-open");
+                this.controlPanelBtn.removeClass("pe_control-panel-btn-close");
             } else {
                 this.controlPanel.slideDown();
+                this.controlPanelBtn.removeClass("pe_control-panel-btn-open");
+                this.controlPanelBtn.addClass("pe_control-panel-btn-close");
             }
         },
         addUserItem: function (user) {
