@@ -296,7 +296,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 roleSpan.addClass("pe_role-admin");
             }else if (role == API.ROLE.AMBASSADOR) {
                 roleSpan.addClass("pe_role-ambassador");
-            }else if (role >= API.ROLE.FEATUREDJ) {
+            }else if (role >= API.ROLE.FEATUREDDJ) {
                 roleSpan.addClass("pe_role-moderator");
             }else{
                 roleSpan.addClass("pe_role-none");
