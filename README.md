@@ -8,16 +8,22 @@ Features
 ### Current
 - Autowoot
 - Autojoin
-- Userlist
+- Advanced userlist
     * Colors by rank
     * Font style by relationship
     * Chat mention link
+- Detailed user information
+    * Join date
+    * DJ points
+    * Listener points
+    * Curator points
+    * Score
+- Top video from history
     
 ### Planned
-- Advanced userlist
-    * Detailed user information
-    * User filter (friends, strangers, meh-hers, wooters)
+- User filter for userlist
 - Estimated time until playing
+- Shortcut buttons for DJ booth (lock booth, skip dj, remove dj)
 
 How to use
 ---------
