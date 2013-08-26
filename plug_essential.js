@@ -165,7 +165,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.initEvents();
             this.refreshUserlist();
             this.refreshUserDetail();
-            setTimeout($.proxy(this.lateInit, this), 3000);
+            this.refreshTop();
         },
         lateInit: function () {
             this.refreshTop();
@@ -286,19 +286,23 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             }
         },
         refreshTop: function () {
-            var top;
-            for(var i=0;i<API.getHistory().length;i++){
-                var entry = API.getHistory()[i];
-                if(!top || ((entry.room.positive+entry.room.curates)-entry.room.negative)>((top.room.positive+top.room.curates)-top.room.negative)){
-                    top = entry;
+            setTimeout($.proxy(function() {
+                console.log("len: "+API.getHistory().length+" media: "+API.getMedia());
+                var top;
+                for(var i=1;i<API.getHistory().length;i++){
+                    var entry = API.getHistory()[i];
+                    if(!top || ((entry.room.positive+entry.room.curates)-entry.room.negative)>=((top.room.positive+top.room.curates)-top.room.negative)){
+                        top = entry;
+                    }
                 }
-            }
-            if(top){
-                this.topImage.attr("src", top.media.image);
-                this.topAuthor.find("span").html(top.media.author);
-                this.topTitle.find("span").html(top.media.title);
-                this.topPlayedBy.find("span").html("played by: "+top.user.username);
-            }
+                if(top){
+                    console.log("new top: "+top);
+                    this.topImage.attr("src", top.media.image);
+                    this.topAuthor.find("span").html(top.media.author);
+                    this.topTitle.find("span").html(top.media.title);
+                    this.topPlayedBy.find("span").html("played by: "+top.user.username);
+                }
+            }, this), 3000);
         },
         refreshUserDetail: function (user) {
             if(typeof(this.detailOf) === 'undefined'){
