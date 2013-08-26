@@ -205,12 +205,16 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.userdetailBody.append("<div style=\"position: absolute; top: 10px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">DJ POINTS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 45px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">LISTENER POINTS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 80px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">CURATOR POINTS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 115px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">FANS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 150px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">SCORE</span></div>");
             this.detailUsername = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 25px; left: 8px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailRank = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 66px; left: 8px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailJoined = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 107px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailDjPoints = $("<div class=\"meta-value hnb\" style=\" top: 23px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailListenerPoints = $("<div class=\"meta-value hnb\" style=\" top: 58px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailCuratorPoints = $("<div class=\"meta-value hnb\" style=\" top: 93px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailFans = $("<div class=\"meta-value hnb\" style=\" top: 128px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailScore = $("<div class=\"meta-value hnb\" style=\" top: 163px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
         },
         togglePanel: function () {
             if (this.controlPanel.is(":visible")) {
@@ -220,7 +224,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             }
         },
         addUserItem: function (user) {
-            console.log("adding user: "+user.permission);
+            console.log("adding user: "+user.vote+" "+API.getDJs()[0].id+" "+user.id);
             var userRow = $("<tr class=\"pe_user-row\"></tr>").appendTo(this.userlistTable);
             this.userlist[user.id] = userRow
             var nameCell = $("<td class=\"pe_user-cell-name\"></td>").appendTo(userRow);
@@ -230,8 +234,11 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 Config.plug.chatInput.val("@"+user.username+" ");
                 Config.plug.chatInput.focus();
             });
-            if (!(typeof(user.vote)==='undefined') && user.vote != 0) {
-                if (user.vote>0) {
+            if (API.getDJs().length>0 && user.id === API.getDJs()[0].id) {
+                console.log(user.username+" DJING!!");
+                userRow.find("td").addClass("pe_dj");
+            }else if (!(typeof(user.vote)==='undefined') && user.vote != 0) {
+                if(user.vote>0) {
                     userRow.find("td").addClass("pe_woot");
                 }else{
                     userRow.find("td").addClass("pe_meh");
@@ -315,6 +322,13 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.detailDjPoints.find("span").html(user.djPoints);
             this.detailListenerPoints.find("span").html(user.listenerPoints);
             this.detailCuratorPoints.find("span").html(user.curatorPoints);
+            this.detailFans.find("span").html(user.fans);
+            var score = user.fans/(user.djPoints+user.listenerPoints+user.curatorPoints)
+            if (isNaN(score)){
+                this.detailScore.find("span").html("-");
+            }else{
+                this.detailScore.find("span").html((score*1000).toFixed(2));
+            }
         },
         refreshUserlist: function () {
             $("#pe_userlist-count").html(API.getUsers().length + " users");
