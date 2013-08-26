@@ -165,6 +165,10 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.initEvents();
             this.refreshUserlist();
             this.refreshUserDetail();
+            setTimeout($.proxy(this.lateInit, this), 3000);
+        },
+        lateInit: function () {
+            this.refreshTop();
         },
         close: function () {
             console.log("Closing Plug Essential!");
@@ -217,6 +221,12 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.detailCuratorPoints = $("<div class=\"meta-value hnb\" style=\" top: 93px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailFans = $("<div class=\"meta-value hnb\" style=\" top: 128px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailScore = $("<div class=\"meta-value hnb\" style=\" top: 163px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
+            this.topHistoryBox = $("<div id=\"pe_top-history-box\"></div>").appendTo(this.controlPanel);
+            this.topHistoryHeader = $("<div class=\"meta-header\" id=\"pe_top-history-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">TOP FROM HISTORY</span></div>").appendTo(this.topHistoryBox);
+            this.topHistoryBody = $("<div id=\"pe_top-history-body\"></div>").appendTo(this.topHistoryBox);
+            this.topImage = $("<img id=\"pe_top-history-image\">").appendTo(this.topHistoryBody);
+            this.topAuthor = $("<div class=\"meta-value hnb\" style=\"width: 180px;top: 10px; left: 100px;\"><span style=\"font-size: 15px;\"></span></div>").appendTo(this.topHistoryBody);
+            this.topTitle = $("<div class=\"meta-value hnb\" style=\"width: 180px;top: 35px; left: 100px;color: #CCC;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.topHistoryBody);
         },
         togglePanel: function () {
             if (this.controlPanel.is(":visible")) {
@@ -226,7 +236,6 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             }
         },
         addUserItem: function (user) {
-            console.log("adding user: "+user.vote+" "+API.getDJs()[0].id+" "+user.id);
             var userRow = $("<tr class=\"pe_user-row\"></tr>").appendTo(this.userlistTable);
             this.userlist[user.id] = userRow
             var nameCell = $("<td class=\"pe_user-cell-name\"></td>").appendTo(userRow);
@@ -273,6 +282,20 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 }else{
                     userElement.addClass("pe_role-none");
                 }
+            }
+        },
+        refreshTop: function () {
+            var top;
+            for(var i=0;i<API.getHistory().length;i++){
+                var entry = API.getHistory()[i];
+                if(!top || ((entry.room.positive+entry.room.curates)-entry.room.negative)>((top.room.positive+top.room.curates)-top.room.negative)){
+                    top = entry;
+                }
+            }
+            if(top){
+                this.topImage.attr("src", top.media.image);
+                this.topAuthor.find("span").html(top.media.author);
+                this.topTitle.find("span").html(top.media.title);
             }
         },
         refreshUserDetail: function (user) {
@@ -363,6 +386,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.userlist[user.id].remove()
         },
         onDjAdvance: function () {
+            this.refreshTop();
             this.refreshUserDetail();
             this.refreshUserlist();
             if (this.autowootActive) {

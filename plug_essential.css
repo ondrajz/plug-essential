@@ -160,3 +160,35 @@
 .pe_role-you {
     color: #ffdd6f;
 }
+
+#pe_top-history-box {
+    left: 20px;
+    top: 170px;
+    height: 50px;
+    width: 280px;
+    padding: 0;
+    position: absolute;
+}
+
+#pe_top-history-header {
+    top: 0;
+    left: 0;
+    width: 216px;
+}
+
+#pe_top-history-body {
+    width: 100%;
+    border: 1px solid #333;
+    top: 25px;
+    height: 80px;
+    position: absolute;
+    background-color: rgba(30, 30, 30, .3);
+}
+
+#pe_top-history-image {
+    width: 80px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    border: 1px solid #333;
+}
