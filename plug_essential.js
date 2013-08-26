@@ -221,12 +221,12 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.controlsBox = $("<div id=\"pe_controls-box\"></div>").appendTo(this.controlPanel);
             this.controlsHeader = $("<div class=\"meta-header\" id=\"pe_controls-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">PLUG ESSENTIAL v"+this.version.getString()+"</span></div>").appendTo(this.controlsBox);
             this.controlsBody = $("<div id=\"pe_controls-body\"></div>").appendTo(this.controlsBox);
-            this.autowootBtn = $("<div id=\"pe_autowoot-btn\" class=\"pe_control-btn\">\
+            this.autowootBtn = $("<div style=\"top: 15px;\" class=\"pe_control-btn\">\
                 <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
                 <div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
                 <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Autowoot</span></div></div>").appendTo(this.controlsBody);
             this.autowootBtn.click(this.proxy.ctrlAutowoot);
-            this.autojoinBtn = $("<div id=\"pe_autojoin-btn\" class=\"pe_control-btn\">\
+            this.autojoinBtn = $("<div style=\"top: 50px;\" class=\"pe_control-btn\">\
                 <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
                 <div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
                 <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Autojoin</span></div></div>").appendTo(this.controlsBody);
