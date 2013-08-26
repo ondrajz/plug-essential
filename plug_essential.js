@@ -186,21 +186,10 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.controlPanelBtn.addClass("pe_control-panel-btn-close");
             this.controlPanel = $("<div id=\"pe_control-panel\"><div class=\"frame-background\"></div></div>").appendTo(Config.plug.roomView);
             this.controlPanelBtn.click(this.proxy.togglePanel);
-            this.versionBox = $("<div id=\"pe_version-box\"><span style=\"font-size: 10px;color: #858585;\">Plug Essential v"+this.version.getString()+"</span></div>").appendTo(this.controlPanel);
             this.userlistBox = $("<div id=\"pe_userlist-box\"></div>").appendTo(this.controlPanel);
             this.userlistHeader = $("<div id=\"pe_userlist-header\" class=\"meta-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">USERLIST</span><span id=\"pe_userlist-count\">? users</span></div>").appendTo(this.userlistBox);
             this.userlistBody = $("<div id=\"pe_userlist-body\"></div>").appendTo(this.userlistBox);
             this.userlistTable = $("<table id=\"pe_userlist-table\"><tbody></tbody></table>").appendTo(this.userlistBody);
-            this.autowootBtn = $("<div id=\"pe_autowoot-btn\" class=\"pe_control-btn\">\
-                <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
-                <div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
-                <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Autowoot</span></div></div>").appendTo(this.controlPanel);
-            this.autowootBtn.click(this.proxy.ctrlAutowoot);
-            this.autojoinBtn = $("<div id=\"pe_autojoin-btn\" class=\"pe_control-btn\">\
-                <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
-                <div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
-                <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Autojoin</span></div></div>").appendTo(this.controlPanel);
-            this.autojoinBtn.click(this.proxy.ctrlAutojoin);
             this.userdetailBox = $("<div id=\"pe_user-detail-box\"></div>").appendTo(this.controlPanel);
             this.userdetailHeader = $("<div class=\"meta-header\" id=\"pe_user-detail-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">USER DETAIL</span></div>").appendTo(this.userdetailBox);
             this.userdetailBody = $("<div id=\"pe_user-detail-body\"></div>").appendTo(this.userdetailBox);
@@ -229,6 +218,19 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.topAuthor = $("<div class=\"meta-value hnb\" style=\"width: 180px;top: 10px; left: 100px;\"><span style=\"font-size: 15px;\"></span></div>").appendTo(this.topHistoryBody);
             this.topTitle = $("<div class=\"meta-value hnb\" style=\"width: 180px;top: 33px; left: 100px;color: #CCC;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.topHistoryBody);
             this.topPlayedBy = $("<div class=\"meta-value hnb\" style=\"width: 180px;top: 55px; left: 100px;color: #CCC;\"><span style=\"font-size: 9px;\"></span></div>").appendTo(this.topHistoryBody);
+            this.controlsBox = $("<div id=\"pe_controls-box\"></div>").appendTo(this.controlPanel);
+            this.controlsHeader = $("<div class=\"meta-header\" id=\"pe_controls-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">PLUG ESSENTIAL v"+this.version.getString()+"</span></div>").appendTo(this.controlsBox);
+            this.controlsBody = $("<div id=\"pe_controls-body\"></div>").appendTo(this.controlsBox);
+            this.autowootBtn = $("<div id=\"pe_autowoot-btn\" class=\"pe_control-btn\">\
+                <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
+                <div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
+                <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Autowoot</span></div></div>").appendTo(this.controlsBody);
+            this.autowootBtn.click(this.proxy.ctrlAutowoot);
+            this.autojoinBtn = $("<div id=\"pe_autojoin-btn\" class=\"pe_control-btn\">\
+                <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
+                <div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
+                <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Autojoin</span></div></div>").appendTo(this.controlsBody);
+            this.autojoinBtn.click(this.proxy.ctrlAutojoin);
         },
         togglePanel: function () {
             if (this.controlPanel.is(":visible")) {
