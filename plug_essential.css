@@ -109,7 +109,7 @@
 .pe_user-cell-name {
     padding: 0;
     max-width: 160px;
-    overflow-x: hidden;    
+    overflow: hidden;
 }
 
 .pe_user-cell-extra {

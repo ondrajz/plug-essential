@@ -235,7 +235,6 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 Config.plug.chatInput.focus();
             });
             if (API.getDJs().length>0 && user.id === API.getDJs()[0].id) {
-                console.log(user.username+" DJING!!");
                 userRow.find("td").addClass("pe_dj");
             }else if (!(typeof(user.vote)==='undefined') && user.vote != 0) {
                 if(user.vote>0) {
@@ -327,6 +326,9 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             if (isNaN(score)){
                 this.detailScore.find("span").html("-");
             }else{
+                if(user.fans<100){
+                    score = score*(user.fans/100);
+                }
                 this.detailScore.find("span").html((score*1000).toFixed(2));
             }
         },
