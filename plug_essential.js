@@ -226,7 +226,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.topHistoryBody = $("<div id=\"pe_top-history-body\"></div>").appendTo(this.topHistoryBox);
             this.topImage = $("<img id=\"pe_top-history-image\">").appendTo(this.topHistoryBody);
             this.topAuthor = $("<div class=\"meta-value hnb\" style=\"width: 180px;top: 10px; left: 100px;\"><span style=\"font-size: 15px;\"></span></div>").appendTo(this.topHistoryBody);
-            this.topTitle = $("<div class=\"meta-value hnb\" style=\"width: 180px;top: 35px; left: 100px;color: #CCC;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.topHistoryBody);
+            this.topTitle = $("<div class=\"meta-value hnb\" style=\"width: 180px;top: 33px; left: 100px;color: #CCC;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.topHistoryBody);
+            this.topPlayedBy = $("<div class=\"meta-value hnb\" style=\"width: 180px;top: 55px; left: 100px;color: #CCC;\"><span style=\"font-size: 9px;\"></span></div>").appendTo(this.topHistoryBody);
         },
         togglePanel: function () {
             if (this.controlPanel.is(":visible")) {
@@ -296,6 +297,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 this.topImage.attr("src", top.media.image);
                 this.topAuthor.find("span").html(top.media.author);
                 this.topTitle.find("span").html(top.media.title);
+                this.topPlayedBy.find("span").html("played by: "+top.user.username);
             }
         },
         refreshUserDetail: function (user) {
