@@ -201,7 +201,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.userdetailBody = $("<div id=\"pe_user-detail-body\"></div>").appendTo(this.userdetailBox);
             this.userdetailBody.append("<div style=\"position: absolute; top: 6px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">USERNAME</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 50px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">RANK</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 90px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">JOIN DATE</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 90px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">STATUS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 130px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">JOIN DATE</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 10px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">DJ POINTS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 45px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">LISTENER POINTS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 80px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">CURATOR POINTS</span></div>");
@@ -209,7 +210,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.userdetailBody.append("<div style=\"position: absolute; top: 150px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">SCORE</span></div>");
             this.detailUsername = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 25px; left: 8px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailRank = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 66px; left: 8px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailJoined = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 107px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailStatus = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 106px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailJoined = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 146px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailDjPoints = $("<div class=\"meta-value hnb\" style=\" top: 23px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailListenerPoints = $("<div class=\"meta-value hnb\" style=\" top: 58px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailCuratorPoints = $("<div class=\"meta-value hnb\" style=\" top: 93px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
@@ -283,6 +285,19 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 this.detailOf = user.id;
             }
             this.detailUsername.find("span").html(user.username);
+            var status = user.status;
+            var statusSpan = this.detailStatus.find("span");
+            if (status == API.STATUS.AVAILABLE) {
+                statusSpan.html("Available");
+            }else if (status == API.STATUS.AFK) {
+                statusSpan.html("AFK");
+            }else if (status == API.STATUS.WORKING) {
+                statusSpan.html("Working");
+            }else if (status == API.STATUS.SLEEPING) {
+                statusSpan.html("Sleeping");
+            }else{
+                statusSpan.html(status);
+            }
             var role = user.permission;
             var roleSpan = this.detailRank.find("span");
             if (role == API.ROLE.NONE) {
