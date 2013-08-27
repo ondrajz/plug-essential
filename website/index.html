@@ -38,6 +38,35 @@
                 color: #e6b154;
                 text-shadow: 0 0 4px rgba(255,170,100,.5);
             }
+            .menu-item {
+                color: #FEFACF;
+                border: 1px solid #555;
+                padding: 9px;
+                background-color: #1f1f1f;
+                margin: 1px;
+                cursor: pointer;
+                text-decoration: none;
+                text-shadow: 0 0 3px rgba(255,170,100,.5);
+            }
+            .menu-item:hover {
+                background-color: #333;
+                text-shadow: 0 0 5px #000;
+            }
+            .slide {
+                position: absolute;
+                top: 170px;
+                left: 25px;
+                width:650px;
+                height: 270px;
+            }
+            p.feature {
+                color: #eece7f;
+                margin-bottom: 7px;
+            }
+            span.feature {
+                font-size: 12px;
+                color: #888;
+            }
         </style>
         <script type="text/javascript">
             function $i(id) { return document.getElementById(id); }
@@ -238,26 +267,65 @@
             <div id="box-background" style="width: 100%;height: 100%;opacity:.9;"></div>
             <div style="position: absolute; top: 10px; left: 25px;color: #FFF;text-shadow: 0 0 8px rgba(255,170,100,.5);width:650px;text-align:center;">
                 <!--<h2>Plug Essential</h2>-->
-                <img src="static/plugEssentialLogo.png" style="margin-top: -12px;margin-bottom: -15px;"/>
+                <img src="static/plugEssentialLogo.png" style="margin-top: -5px;margin-bottom: -7px;"/>
+                <hr>
+                <div style="height: 25px;padding-top: 8px;">
+                    <span id="menu-home" class="menu-item">Get plugin</span>
+                    <span id="menu-features" class="menu-item">Features</span>
+                    <span id="menu-preview" class="menu-item">Preview</span>
+                </div>
                 <hr>
             </div>
-            <div style="position: absolute; top: 180px; left: 25px; color: #FFF;width: 650px;text-align: center;">
-                <p style="text-shadow: 0 0 5px #000;font-size: 20px;" id="drag-info">Drag this link to your bookmarks.</p>
-                <a style="font-size: 32px;" onclick="onDragLinkClick();return false;" href="javascript: (function () { var src = 'http://plug.phoenixlair.com'; $('head').append('<link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; id=&quot;plug-essential-css&quot; href=&quot;'+src+'/plug_essential.css&quot; />'); $('body').append('<script id=&quot;plug-essential&quot; src=&quot;'+src+'/plug_essential.js&quot;></script>'); }());">Plug Essential</a>
-                <p style="text-shadow: 0 0 5px #000;font-size: 20px;">And click it inside a room on plug.dj!</p>
+            <div id="slide-home" style="position: absolute;top: 160px;left: 25px;width:650px;height: 280px;">
+                <div style="position: absolute; color: #FFF;width: 650px;text-align: center;top: 30px;">
+                    <p style="text-shadow: 0 0 5px #000;font-size: 20px;" id="drag-info">Drag this link to your bookmarks.</p>
+                    <a style="font-size: 32px;" onclick="onDragLinkClick();return false;" href="javascript: (function () { var src = 'http://plug.phoenixlair.com'; $('head').append('<link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; id=&quot;plug-essential-css&quot; href=&quot;'+src+'/plug_essential.css&quot; />'); $('body').append('<script id=&quot;plug-essential&quot; src=&quot;'+src+'/plug_essential.js&quot;></script>'); }());">Plug Essential</a>
+                    <p style="text-shadow: 0 0 5px #000;font-size: 20px;">And click it inside a room on plug.dj!</p>
+                </div>
+            </div>
+            <div id="slide-features" class="slide" style="display: none;">
+                <div style="position: absolute; color: #FFF;width: 650px;text-align: center;">
+                    <p class="feature">Autowoot & Autojoin</p>
+                    <span class="feature">Essential plugin features.</span>
+                    <p class="feature">Detailed user information</p>
+                    <span class="feature">Displays all the basic info, join date, dj/listener/curator points and score.</span>
+                    <p class="feature">Informative userlist</p>
+                    <span class="feature">Font color by rank, font style by friendship, background by video reaction.</span>
+                    <p class="feature">Additional room info</p>
+                    <span class="feature">Displays top video from history.</span>
+                </div>
+            </div>
+            <div id="slide-preview" class="slide" style="display: none;">
+                <img src="static/preview.png" style="width: 100%;"/>
             </div>
             <div style="position:absolute;width: 650px;top: 430px;left: 25px;color: #FFF;">
                 <p>Source code: <a href="https://github.com/TrueFurby/plug-essential">GitHub</a></p>
             </div>
         </div>
+        <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
         <script type="text/javascript">
             function onDragLinkClick() {
-                document.getElementById('drag-info').style.color = "#F00";
+                $("#drag-info").css("color", "#F00");
                 setTimeout(function() {
-                    document.getElementById('drag-info').style.color = "";
+                    $("#drag-info").css("color", "");
                 }, 1000);
                 return false;
             }
+            $("#menu-home").click(function() {
+                $("#slide-home").fadeIn();
+                $("#slide-features").fadeOut();
+                $("#slide-preview").fadeOut();
+            });
+            $("#menu-features").click(function() {
+                $("#slide-home").fadeOut();
+                $("#slide-features").fadeIn();
+                $("#slide-preview").fadeOut();
+            });
+            $("#menu-preview").click(function() {
+                $("#slide-home").fadeOut();
+                $("#slide-features").fadeOut();
+                $("#slide-preview").fadeIn();
+            });
         </script>
     </body>
 
