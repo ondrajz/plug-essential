@@ -5,14 +5,14 @@
         <title>Plug Essential</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <style type="text/css">
-            body  {margin:0;padding:0;background-color:#000000;overflow:hidden}
+            body  {margin:0;padding:0;background-color:#000000;overflow:auto;min-height:610px;}
             canvas{background-color:#000000;overflow:hidden}
             #center-box {
-                top:200px;
+                top:60px;
                 margin: 0 auto;
                 z-index:666;
                 width:700px;
-                height:350px;
+                height:490px;
                 position:relative;
                 border: 1px solid #888;
                 font-family: Helvetica,Arial,sans-serif;
@@ -49,11 +49,11 @@
             function _h(value) { return !hires?value:Math.round(value/2); }
 
             function get_screen_size()
-                {
+            {
                 var w=document.documentElement.clientWidth;
                 var h=document.documentElement.clientHeight;
                 return Array(w,h);
-                }
+            }
 
             var url=document.location.href;
 
@@ -92,7 +92,7 @@
             var fps=0;
 
             function init()
-                {
+            {
                 var a=0;
                 for(var i=0;i<n;i++)
                     {
@@ -111,10 +111,10 @@
                 //context.lineCap='round';
                 context.fillStyle='rgb(0,0,0)';
                 context.strokeStyle='rgb(255,255,255)';
-                }
+            }
 
             function anim()
-                {
+            {
                 mouse_x=cursor_x-x;
                 mouse_y=cursor_y-y;
                 context.fillRect(0,0,w,h);
@@ -139,17 +139,17 @@
                         }
                     }
                 timeout=setTimeout('anim()',fps);
-                }
+            }
 
             function move(evt)
-                {
+            {
                 evt=evt||event;
                 cursor_x=evt.pageX-canvas_x;
                 cursor_y=evt.pageY-canvas_y;
-                }
+            }
 
             function key_manager(evt)
-                {
+            {
                 evt=evt||event;
                 key=evt.which||evt.keyCode;
                 //ctrl=evt.ctrlKey;
@@ -175,20 +175,20 @@
                         break;
                     }
                 top.status='key='+((key<100)?'0':'')+((key<10)?'0':'')+key;
-                }
+            }
 
             function release()
-                {
+            {
                 switch(key)
-                    {
-                    case 13:
-                        context.fillStyle='rgb(0,0,0)';
-                        break;
-                    }
+                {
+                case 13:
+                    context.fillStyle='rgb(0,0,0)';
+                    break;
                 }
+            }
 
             function mouse_wheel(evt)
-                {
+            {
                 evt=evt||event;
                 var delta=0;
                 if(evt.wheelDelta)
@@ -201,18 +201,21 @@
                     }
                 star_speed+=(delta>=0)?-0.2:0.2;
                 if(evt.preventDefault) evt.preventDefault();
-                }
+            }
 
             function start()
-                {
+            {
                 resize();
                 anim();
-                }
+            }
 
             function resize()
-                {
+            {
                 w=parseInt((url.indexOf('w=')!=-1)?url.substring(url.indexOf('w=')+2,((url.substring(url.indexOf('w=')+2,url.length)).indexOf('&')!=-1)?url.indexOf('w=')+2+(url.substring(url.indexOf('w=')+2,url.length)).indexOf('&'):url.length):get_screen_size()[0]);
                 h=parseInt((url.indexOf('h=')!=-1)?url.substring(url.indexOf('h=')+2,((url.substring(url.indexOf('h=')+2,url.length)).indexOf('&')!=-1)?url.indexOf('h=')+2+(url.substring(url.indexOf('h=')+2,url.length)).indexOf('&'):url.length):get_screen_size()[1]);
+                if(h<610){
+                    h=610;
+                }
                 x=Math.round(w/2);
                 y=Math.round(h/2);
                 z=(w+h)/2;
@@ -220,7 +223,7 @@
                 cursor_x=x;
                 cursor_y=y;
                 init();
-                }
+            }
 
             document.onmousemove=move;
             document.onkeypress=key_manager;
@@ -233,18 +236,29 @@
         <canvas id="starfield" style="background-color: rgb(0, 0, 0); position: absolute;z-index:1;" width="1440" height="399"></canvas>
         <div id="center-box">
             <div id="box-background" style="width: 100%;height: 100%;opacity:.9;"></div>
-            <div style="position: absolute; top: 10px; left: 30px;color: #FFF;text-shadow: 0 0 8px rgba(255,170,100,.5);width:640px;">
-                <h2>Plug Essential</h2>
+            <div style="position: absolute; top: 10px; left: 25px;color: #FFF;text-shadow: 0 0 8px rgba(255,170,100,.5);width:650px;text-align:center;">
+                <!--<h2>Plug Essential</h2>-->
+                <img src="static/plugEssentialLogo.png" style="margin-top: -12px;margin-bottom: -15px;"/>
                 <hr>
             </div>
-            <div style="position: absolute; top: 100px; left: 30px; color: #FFF;width: 640px;">
-                <p>Add this link to your bookmarks and click it inside a room on plug.dj!</p>
-                <a onclick="return false;" href="javascript: (function () { var src = 'http://plug.phoenixlair.com'; $('head').append('<link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; id=&quot;plug-essential-css&quot; href=&quot;'+src+'/plug_essential.css&quot; />'); $('body').append('<script id=&quot;plug-essential&quot; src=&quot;'+src+'/plug_essential.js&quot;></script>'); }());">plug essential</a>
+            <div style="position: absolute; top: 190px; left: 25px; color: #FFF;width: 650px;text-align: center;">
+                <p style="text-shadow: 0 0 5px #000;" id="drag-info">Drag this link to your bookmarks.</p>
+                <a style="font-size: 22px;" onclick="onDragLinkClick();" href="javascript: (function () { var src = 'http://plug.phoenixlair.com'; $('head').append('<link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; id=&quot;plug-essential-css&quot; href=&quot;'+src+'/plug_essential.css&quot; />'); $('body').append('<script id=&quot;plug-essential&quot; src=&quot;'+src+'/plug_essential.js&quot;></script>'); }());">Plug Essential</a>
+                <p style="text-shadow: 0 0 5px #000;">And click it inside a room on plug.dj!</p>
             </div>
-            <div style="position:absolute;width: 640px;top: 290px;left: 30px;color: #FFF;">
+            <div style="position:absolute;width: 650px;top: 430px;left: 25px;color: #FFF;">
                 <p>Source code: <a href="https://github.com/TrueFurby/plug-essential">GitHub</a></p>
             </div>
         </div>
+        <script type="text/javascript">
+            function onDragLinkClick() {
+                document.getElementById('drag-info').style.color = "#F00";
+                setTimeout(function() {
+                    document.getElementById('drag-info').style.color = "";
+                }, 1000);
+                return false;
+            }
+        </script>
     </body>
 
 </html>
