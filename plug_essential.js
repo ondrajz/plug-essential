@@ -141,7 +141,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
         version: {
             major: 0,
             minor: 4,
-            change: 0,
+            change: 1,
             getString: function () {
                 return (this.major + "." + this.minor + "." + this.change);
             }
