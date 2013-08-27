@@ -368,7 +368,13 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             }else{
                 roleSpan.addClass("pe_role-none");
             }
-            this.detailJoined.find("span").html(dateFormat(new Date(parseInt(user.id.substring(0,8), 16)*1000), "mmmm dS yyyy"));
+            var joinDate = new Date(parseInt(user.id.substring(0,8), 16)*1000);
+            var oldDate = new Date(2012, 10, 24);
+            if(joinDate.getTime()<oldDate.getTime()) {
+                this.detailJoined.find("span").html("Old user");
+            }else{
+                this.detailJoined.find("span").html(dateFormat(joinDate, "mmmm dS yyyy"));
+            }
             this.detailDjPoints.find("span").html(user.djPoints);
             this.detailListenerPoints.find("span").html(user.listenerPoints);
             this.detailCuratorPoints.find("span").html(user.curatorPoints);
