@@ -244,3 +244,12 @@
     position: absolute;
     background-color: rgba(30, 30, 30, .3);
 }
+
+#pe_info-body {
+    width: 100%;
+    border: 1px solid #333;
+    top: 25px;
+    height: 145px;
+    position: absolute;
+    background-color: rgba(30, 30, 30, .3);
+}

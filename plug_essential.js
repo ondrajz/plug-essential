@@ -156,7 +156,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 ctrlAutojoin: $.proxy(this.ctrlAutojoin, this),
                 refreshUserlist: $.proxy(this.refreshUserlist, this),
                 onUserJoin: $.proxy(this.onUserJoin, this),
-                onUserLeave: $.proxy(this.onUserLeave, this)
+                onUserLeave: $.proxy(this.onUserLeave, this),
+                refreshInfo: $.proxy(this.refreshInfo, this)
             };
             this.userlist = {}
             this.autowootActive = false;
@@ -166,6 +167,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.refreshUserlist();
             this.refreshUserDetail();
             this.refreshTop();
+            this.refreshInfo();
         },
         lateInit: function () {
             this.refreshTop();
@@ -180,6 +182,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             API.on(API.DJ_ADVANCE, this.proxy.onDjAdvance);
             API.on(API.USER_JOIN, this.proxy.onUserJoin);
             API.on(API.USER_LEAVE, this.proxy.onUserLeave);
+            API.on(API.WAIT_LIST_UPDATE, this.proxy.refreshInfo);
+            API.on(API.DJ_UPDATE, this.proxy.refreshInfo);
         },
         initGui: function () {
             this.controlPanelBtn = $("<div id=\"pe_control-panel-btn\"></div>").appendTo(Config.plug.roomView);
@@ -241,6 +245,10 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 <div style=\"top: 1px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
                 <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Enable</span></div></div>").appendTo(this.controlsBody);
             this.autojoinBtn.click(this.proxy.ctrlAutojoin);
+            this.infoBox = $("<div style=\"position: absolute;left: 105px;top: 10px;width: 195px;\"></div>").appendTo(this.controlPanel);
+            this.infoBody = $("<div id=\"pe_info-body\"></div>").appendTo(this.infoBox);
+            this.infoPlace = $("<div style=\"position: absolute; top: 45px;width:100%;text-align: center;\"><span style=\"color: #B9B9B9;\">You are in booth:</span></div>").appendTo(this.infoBody);
+            this.infoPosition = $("<div style=\"position: absolute; top:65px;width:100%;text-align: center;\"><span style=\"font-size: 20px;font-weight:bold;\">You are in booth:</span></div>").appendTo(this.infoBody);
         },
         togglePanel: function () {
             if (this.controlPanel.is(":visible")) {
@@ -302,17 +310,37 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 }
             }
         },
+        refreshInfo: function() {
+            if (API.getDJs().length > 0 && API.getDJs()[0].id == API.getUser().id) {
+                this.infoPlace.find("span").html("You are:");
+                this.infoPosition.find("span").css("color", "#FFF");
+                this.infoPosition.find("span").css("color", "#CCFF20");
+                this.infoPosition.find("span").html("Playing now!");
+            } else if (API.getBoothPosition() < 0 && API.getWaitListPosition() < 0) {
+                this.infoPlace.find("span").html("You are not in queue.");
+                this.infoPosition.find("span").css("color", "#FFF");
+                this.infoPosition.find("span").html("-");
+            } else if (API.getWaitListPosition() >= 0) {
+                this.infoPlace.find("span").html("You are in the waitlist:");
+                this.infoPosition.find("span").css("color", "#20CCFF");
+                this.infoPosition.find("span").html(API.getWaitListPosition()+"/"+API.getWaitList().length);
+            } else if (API.getBoothPosition() >= 0) {
+                this.infoPlace.find("span").html("You are in the booth:");
+                this.infoPosition.find("span").css("color", "#CCFF20");
+                this.infoPosition.find("span").html(API.getBoothPosition());
+            }
+        },
         refreshTop: function () {
             setTimeout($.proxy(function() {
                 console.log("len: "+API.getHistory().length+" media: "+API.getMedia());
                 var top;
                 for(var i=1;i<API.getHistory().length;i++){
                     var entry = API.getHistory()[i];
-                    if(!top || ((entry.room.positive+entry.room.curates)-entry.room.negative)>=((top.room.positive+top.room.curates)-top.room.negative)){
+                    if (!top || ((entry.room.positive+entry.room.curates)-entry.room.negative)>=((top.room.positive+top.room.curates)-top.room.negative)) {
                         top = entry;
                     }
                 }
-                if(top){
+                if (top) {
                     console.log("new top: "+top);
                     this.topImage.attr("src", top.media.image).load($.proxy(function() {
                         this.topInfo.css("left", this.topImage.width()-3);
