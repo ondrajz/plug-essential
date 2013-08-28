@@ -213,11 +213,11 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.detailScore = $("<div class=\"meta-value hnb\" style=\" top: 163px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.topHistoryBox = $("<div id=\"pe_top-history-box\"></div>").appendTo(this.controlPanel);
             this.topHistoryHeader = $("<div class=\"meta-header\" id=\"pe_top-history-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">TOP FROM HISTORY</span></div>").appendTo(this.topHistoryBox);
+            this.topImage = $("<img id=\"pe_top-history-image\">").appendTo(this.topHistoryBox);
             this.topHistoryBody = $("<div id=\"pe_top-history-body\"></div>").appendTo(this.topHistoryBox);
-            this.topImage = $("<img id=\"pe_top-history-image\">").appendTo(this.topHistoryBody);
-            this.topAuthor = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 10px; left: 100px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.topHistoryBody);
-            this.topTitle = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 30px; left: 100px;color: #CCC;\"><span style=\"font-size: 11px;\"></span></div>").appendTo(this.topHistoryBody);
-            this.topPlayedBy = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 53px; left: 100px;color: #CCC;\"><span style=\"font-size: 9px;\"></span></div>").appendTo(this.topHistoryBody);
+            this.topAuthor = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 3px; left: 85px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.topHistoryBody);
+            this.topTitle = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 20px; left: 85px;color: #CCC;\"><span style=\"font-size: 11px;\"></span></div>").appendTo(this.topHistoryBody);
+            this.topPlayedBy = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 38px; left: 85px;color: #CCC;\"><span style=\"font-size: 9px;\"></span></div>").appendTo(this.topHistoryBody);
             this.controlsBox = $("<div id=\"pe_controls-box\"></div>").appendTo(this.controlPanel);
             this.controlsHeader = $("<div class=\"meta-header\" id=\"pe_controls-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">PLUG ESSENTIAL v"+this.version.getString()+"</span></div>").appendTo(this.controlsBox);
             this.controlsBody = $("<div id=\"pe_controls-body\"></div>").appendTo(this.controlsBox);

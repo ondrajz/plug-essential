@@ -67,7 +67,7 @@
 
 .pe_control-btn {
     position: absolute; 
-    width: 75px;
+    width: 60px;
     height: 18px;
     padding: 0;
     display: block;
@@ -154,7 +154,7 @@
 
 #pe_top-history-box {
     left: 20px;
-    top: 170px;
+    top: 192px;
     height: 50px;
     width: 280px;
     padding: 0;
@@ -169,20 +169,19 @@
 
 #pe_top-history-body {
     width: 100%;
-    border: 1px solid #333;
     top: 25px;
-    height: 80px;
+    height: 58px;
     position: absolute;
     background-color: rgba(30, 30, 30, .3);
-    overflow-x: hidden;
+    border: 1px solid #333; 
+    overflow: hidden;
 }
 
 #pe_top-history-image {
-    width: 80px;
+    height: 60px;
     position: absolute;
-    left: 10px;
-    top: 10px;
-    border: 1px solid #333;
+    z-index: 1;
+    top: 25px;
 }
 
 #pe_controls-box {
