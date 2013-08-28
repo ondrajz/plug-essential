@@ -219,11 +219,11 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.topAuthor = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 3px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.topInfo);
             this.topTitle = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 20px;color: #CCC;\"><span style=\"font-size: 11px;\"></span></div>").appendTo(this.topInfo);
             this.topScore = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 40px;color: #CCC;\"></div>").appendTo(this.topInfo);
-            this.topScore.append("<span class=\"pe_top-score-img pe_mini-woot\"></span>");
+            this.topScore.append("<span class=\"pe_top-score-img pe_mini-woot\" style=\"display: none;\"></span>");
             this.topWoot = $("<span class=\"pe_top-score\"></span>").appendTo(this.topScore);
-            this.topScore.append("<span class=\"pe_top-score-img pe_mini-meh\"></span>");
+            this.topScore.append("<span class=\"pe_top-score-img pe_mini-meh\" style=\"display: none;\"></span>");
             this.topMeh = $("<span class=\"pe_top-score\"></span>").appendTo(this.topScore);
-            this.topScore.append("<span class=\"pe_top-score-img pe_mini-curate\"></span>");
+            this.topScore.append("<span class=\"pe_top-score-img pe_mini-curate\" style=\"display: none;\"></span>");
             this.topCurate = $("<span class=\"pe_top-score\"></span>").appendTo(this.topScore);
             this.topPlayedBy = $("<span style=\"font-size: 10px;float: left;margin-left: 5px;margin-top: 1px;\"></span>").appendTo(this.topScore);
             this.controlsBox = $("<div id=\"pe_controls-box\"></div>").appendTo(this.controlPanel);
@@ -318,6 +318,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                         this.topInfo.css("left", this.topImage.width()-3);
                         this.topAuthor.find("span").html(top.media.author);
                         this.topTitle.find("span").html(top.media.title);
+                        this.topScore.find(".pe_top-score-img").show();
                         this.topWoot.html(top.room.positive);
                         this.topMeh.html(top.room.negative);
                         this.topCurate.html(top.room.curates);
