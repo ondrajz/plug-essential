@@ -221,15 +221,17 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.controlsBox = $("<div id=\"pe_controls-box\"></div>").appendTo(this.controlPanel);
             this.controlsHeader = $("<div class=\"meta-header\" id=\"pe_controls-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">PLUG ESSENTIAL v"+this.version.getString()+"</span></div>").appendTo(this.controlsBox);
             this.controlsBody = $("<div id=\"pe_controls-body\"></div>").appendTo(this.controlsBox);
-            this.autowootBtn = $("<div style=\"top: 15px;\" class=\"pe_control-btn\">\
+            this.controlsBody.append("<div style=\"position: absolute; top: 6px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">AUTOWOOT</span></div>");
+            this.controlsBody.append("<div style=\"position: absolute; top: 53px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">AUTOJOIN</span></div>");
+            this.autowootBtn = $("<div style=\"top: 28px;\" class=\"pe_control-btn\">\
                 <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
-                <div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
-                <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Autowoot</span></div></div>").appendTo(this.controlsBody);
+                <div style=\"top: 1px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
+                <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Enable</span></div></div>").appendTo(this.controlsBody);
             this.autowootBtn.click(this.proxy.ctrlAutowoot);
-            this.autojoinBtn = $("<div style=\"top: 50px;\" class=\"pe_control-btn\">\
+            this.autojoinBtn = $("<div style=\"top: 75px;\" class=\"pe_control-btn\">\
                 <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
-                <div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
-                <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Autojoin</span></div></div>").appendTo(this.controlsBody);
+                <div style=\"top: 1px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
+                <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Enable</span></div></div>").appendTo(this.controlsBody);
             this.autojoinBtn.click(this.proxy.ctrlAutojoin);
         },
         togglePanel: function () {
@@ -433,11 +435,13 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 console.log("autowoot deactivated!");
                 this.autowootActive = false;
                 this.autowootBtn.find(".frame-background").css("background-color", "#73A024");
+                this.autowootBtn.find("span").html("Enable");
             } else {
                 console.log("autowoot activated!");
                 this.autowootActive = true;
                 this.doWoot();
                 this.autowootBtn.find(".frame-background").css("background-color", "#A33A46");
+                this.autowootBtn.find("span").html("Disable");
             }
         },
         ctrlAutojoin: function () {
@@ -445,11 +449,13 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 console.log("autojoin deactivated!");
                 this.autojoinActive = false;
                 this.autojoinBtn.find(".frame-background").css("background-color", "#73A024");
+                this.autojoinBtn.find("span").html("Enable");
             } else {
                 console.log("autojoin activated!");
                 this.autojoinActive = true;
                 this.doJoin();
                 this.autojoinBtn.find(".frame-background").css("background-color", "#A33A46");
+                this.autojoinBtn.find("span").html("Disable");
             }
         },
         doWoot: function () {
