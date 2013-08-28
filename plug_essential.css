@@ -105,7 +105,7 @@
     height: 18px;
     padding: 0;
     display: block;
-    left: 15px;
+    left: 7px;
     text-align: center;
     border-top: 1px solid #AAA;
     border-left: 1px solid #AAA;
@@ -225,7 +225,7 @@
     left: 20px;
     top: 10px;
     height: 80px;
-    width: 280px;
+    width: 76px;
     padding: 0;
     position: absolute;
 }
@@ -240,7 +240,7 @@
     width: 100%;
     border: 1px solid #333;
     top: 25px;
-    height: 125px;
+    height: 145px;
     position: absolute;
     background-color: rgba(30, 30, 30, .3);
 }
