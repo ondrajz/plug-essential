@@ -215,9 +215,17 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.topHistoryHeader = $("<div class=\"meta-header\" id=\"pe_top-history-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">TOP FROM HISTORY</span></div>").appendTo(this.topHistoryBox);
             this.topImage = $("<img id=\"pe_top-history-image\">").appendTo(this.topHistoryBox);
             this.topHistoryBody = $("<div id=\"pe_top-history-body\"></div>").appendTo(this.topHistoryBox);
-            this.topAuthor = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 3px; left: 85px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.topHistoryBody);
-            this.topTitle = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 20px; left: 85px;color: #CCC;\"><span style=\"font-size: 11px;\"></span></div>").appendTo(this.topHistoryBody);
-            this.topPlayedBy = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 38px; left: 85px;color: #CCC;\"><span style=\"font-size: 9px;\"></span></div>").appendTo(this.topHistoryBody);
+            this.topInfo = $("<div style=\"left: 85px;width: 100%;position:absolute;\"></div>").appendTo(this.topHistoryBody);
+            this.topAuthor = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 3px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.topInfo);
+            this.topTitle = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 20px;color: #CCC;\"><span style=\"font-size: 11px;\"></span></div>").appendTo(this.topInfo);
+            this.topScore = $("<div class=\"meta-value hnb\" style=\"width: 300%;top: 40px;color: #CCC;\"></div>").appendTo(this.topInfo);
+            this.topScore.append("<span class=\"pe_top-score-img pe_mini-woot\"></span>");
+            this.topWoot = $("<span class=\"pe_top-score\"></span>").appendTo(this.topScore);
+            this.topScore.append("<span class=\"pe_top-score-img pe_mini-meh\"></span>");
+            this.topMeh = $("<span class=\"pe_top-score\"></span>").appendTo(this.topScore);
+            this.topScore.append("<span class=\"pe_top-score-img pe_mini-curate\"></span>");
+            this.topCurate = $("<span class=\"pe_top-score\"></span>").appendTo(this.topScore);
+            this.topPlayedBy = $("<span style=\"font-size: 10px;float: left;margin-left: 5px;margin-top: 1px;\"></span>").appendTo(this.topScore);
             this.controlsBox = $("<div id=\"pe_controls-box\"></div>").appendTo(this.controlPanel);
             this.controlsHeader = $("<div class=\"meta-header\" id=\"pe_controls-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">PLUG ESSENTIAL v"+this.version.getString()+"</span></div>").appendTo(this.controlsBox);
             this.controlsBody = $("<div id=\"pe_controls-body\"></div>").appendTo(this.controlsBox);
@@ -306,10 +314,15 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 }
                 if(top){
                     console.log("new top: "+top);
-                    this.topImage.attr("src", top.media.image);
-                    this.topAuthor.find("span").html(top.media.author);
-                    this.topTitle.find("span").html(top.media.title);
-                    this.topPlayedBy.find("span").html("played by: "+top.user.username);
+                    this.topImage.attr("src", top.media.image).load($.proxy(function() {
+                        this.topInfo.css("left", this.topImage.width()-3);
+                        this.topAuthor.find("span").html(top.media.author);
+                        this.topTitle.find("span").html(top.media.title);
+                        this.topWoot.html(top.room.positive);
+                        this.topMeh.html(top.room.negative);
+                        this.topCurate.html(top.room.curates);
+                        this.topPlayedBy.html(top.user.username);
+                    }, this));
                 }
             }, this), 3000);
         },
