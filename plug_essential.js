@@ -249,6 +249,14 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.infoBody = $("<div id=\"pe_info-body\"></div>").appendTo(this.infoBox);
             this.infoPlace = $("<div style=\"position: absolute; top: 45px;width:100%;text-align: center;\"><span style=\"color: #B9B9B9;\">You are in booth:</span></div>").appendTo(this.infoBody);
             this.infoPosition = $("<div style=\"position: absolute; top:65px;width:100%;text-align: center;\"><span style=\"font-size: 20px;font-weight:bold;\">You are in booth:</span></div>").appendTo(this.infoBody);
+            this.skipButton = $("<div style=\"position: absolute; width: 60px; height: 25px; padding: 0;display: block;left: 455px;top: 360px;text-align: center;border: 1px solid #000000;z-index: 1000000;cursor: pointer;\"><div class=\"frame-background\" style=\"background-color: #B92F40;opacity: 1;\"></div><div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\"><span style=\"color: #461616;text-shadow: 1px 1px #DD9090;font-size: 15px;font-weight: bold;\">Skip</span></div></div>").appendTo(this.controlPanel);
+            if(API.getUser().permission>=API.ROLE.BOUNCER){
+                this.skipButton.click(function() {
+                    API.moderateForceSkip();
+                });
+            }else{
+                this.skipButton.hide();
+            }
         },
         togglePanel: function () {
             if (this.controlPanel.is(":visible")) {
