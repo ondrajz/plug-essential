@@ -303,8 +303,12 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                     userElement.addClass("pe_role-admin");
                 }else if (role == API.ROLE.AMBASSADOR) {
                     userElement.addClass("pe_role-ambassador");
-                }else if (role >= API.ROLE.FEATUREDDJ) {
+                }else if (role == API.ROLE.HOST || role == API.ROLE.COHOST) {
+                    userElement.addClass("pe_role-host");
+                }else if (role == API.ROLE.MANAGER) {
                     userElement.addClass("pe_role-moderator");
+                }else if (role >= API.ROLE.FEATUREDDJ) {
+                    userElement.addClass("pe_role-bouncer");
                 }else{
                     userElement.addClass("pe_role-none");
                 }
@@ -401,14 +405,20 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             }
             roleSpan.removeClass("pe_role-admin");
             roleSpan.removeClass("pe_role-ambassador");
+            roleSpan.removeClass("pe_role-host");
             roleSpan.removeClass("pe_role-moderator");
+            roleSpan.removeClass("pe_role-bouncer");
             roleSpan.removeClass("pe_role-none");
             if (role == API.ROLE.ADMIN) {
                 roleSpan.addClass("pe_role-admin");
             }else if (role == API.ROLE.AMBASSADOR) {
                 roleSpan.addClass("pe_role-ambassador");
-            }else if (role >= API.ROLE.FEATUREDDJ) {
+            }else if (role == API.ROLE.HOST || role == API.ROLE.COHOST) {
+                roleSpan.addClass("pe_role-host");
+            }else if (role == API.ROLE.MANAGER) {
                 roleSpan.addClass("pe_role-moderator");
+            }else if (role >= API.ROLE.FEATUREDDJ) {
+                roleSpan.addClass("pe_role-bouncer");
             }else{
                 roleSpan.addClass("pe_role-none");
             }
