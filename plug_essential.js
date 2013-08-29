@@ -320,7 +320,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             this.userlist[user.id] = userRow
             var nameCell = $("<td class=\"pe_user-cell-name\"></td>").appendTo(userRow);
             var extraCell = $("<td class=\"pe_user-cell-extra\"></td>").appendTo(userRow);
-            var langElement = $("<span></span>").appendTo(extraCell);
+            var langElement = $("<span style=\"color: #CECECE\"></span>").appendTo(extraCell);
             langElement.html("["+user.language+"]");
             var mentionBtn = $("<span style=\"cursor: pointer;font-weight: bold;padding: 0 3px;\">@</span>").appendTo(extraCell);
             mentionBtn.click(function () {
