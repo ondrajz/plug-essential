@@ -213,8 +213,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             this.userdetailBody.append("<div style=\"position: absolute; top: 168px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">FANS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 203px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">SCORE</span></div>");
             this.detailAvatar = $("<div class=\"meta-value hnb\" style=\"height: 50px;width: 244px;top: 8px; left: 8px;border-bottom: 1px solid #333;\"><img /></div>").appendTo(this.userdetailBody);
-            this.detailUsername = $("<div class=\"meta-value hnb\" style=\"top: 8px; left: 60px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailRank = $("<div class=\"meta-value hnb\" style=\"top: 25px; left: 60px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailUsername = $("<div class=\"meta-value hnb\" style=\"top: 15px; left: 60px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailRank = $("<div class=\"meta-value hnb\" style=\"top: 35px; left: 60px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailStatus = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 76px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailJoined = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 111px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailLanguage = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 146px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
