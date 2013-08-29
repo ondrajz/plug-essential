@@ -142,8 +142,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
     return Class.extend({
         version: {
             major: 0,
-            minor: 5,
-            change: 1,
+            minor: 6,
+            change: 0,
             getString: function () {
                 return (this.major + "." + this.minor + "." + this.change);
             }
