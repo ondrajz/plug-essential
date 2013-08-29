@@ -138,7 +138,7 @@ define('plugEssential/Config', {
     }
 });
 
-define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/utils/AvatarManifest', 'app/models/RoomModel', 'app/net/Socket'], function (Class, Config, Avatar, RoomModel, Socket) {
+define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/utils/AvatarManifest', 'app/models/RoomModel', 'app/net/Socket', 'app/views/room/AudienceView'], function (Class, Config, Avatar, RoomModel, Socket, AudienceView) {
     return Class.extend({
         version: {
             major: 0,
@@ -160,11 +160,13 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                 onUserJoin: $.proxy(this.onUserJoin, this),
                 onUserLeave: $.proxy(this.onUserLeave, this),
                 refreshInfo: $.proxy(this.refreshInfo, this),
-                onRoomPropsUpdate: $.proxy(this.onRoomPropsUpdate, this)
+                onRoomPropsUpdate: $.proxy(this.onRoomPropsUpdate, this),
+                strobeToggle: $.proxy(this.strobeToggle, this)
             };
             this.userlist = {}
             this.autowootActive = false;
             this.autojoinActive = false;
+            this.strobeState = false;
             this.initGui();
             this.initEvents();
             this.refreshUserlist();
@@ -205,8 +207,6 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             this.userdetailBox = $("<div id=\"pe_user-detail-box\"></div>").appendTo(this.controlPanel);
             this.userdetailHeader = $("<div class=\"meta-header\" id=\"pe_user-detail-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">USER DETAIL</span></div>").appendTo(this.userdetailBox);
             this.userdetailBody = $("<div id=\"pe_user-detail-body\"></div>").appendTo(this.userdetailBox);
-            //this.userdetailBody.append("<div style=\"position: absolute; top: 6px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">USERNAME</span></div>");
-            //this.userdetailBody.append("<div style=\"position: absolute; top: 50px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">RANK</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 60px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">STATUS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 100px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">JOIN DATE</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 63px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">DJ POINTS</span></div>");
@@ -243,18 +243,24 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             this.controlsBox = $("<div id=\"pe_controls-box\"></div>").appendTo(this.controlPanel);
             this.controlsHeader = $("<div class=\"meta-header\" id=\"pe_controls-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">PLUG ESSENTIAL v"+this.version.getString()+"</span></div>").appendTo(this.controlsBox);
             this.controlsBody = $("<div id=\"pe_controls-body\"></div>").appendTo(this.controlsBox);
-            this.controlsBody.append("<div style=\"position: absolute; top: 6px;width:100%;text-align: center;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">AUTOWOOT</span></div>");
-            this.controlsBody.append("<div style=\"position: absolute; top: 53px;width:100%;;text-align: center;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">AUTOJOIN</span></div>");
-            this.autowootBtn = $("<div style=\"top: 28px;\" class=\"pe_control-btn\">\
+            this.controlsBody.append("<div style=\"position: absolute; top: 4px;width:100%;text-align: center;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">AUTOWOOT</span></div>");
+            this.controlsBody.append("<div style=\"position: absolute; top: 51px;width:100%;;text-align: center;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">AUTOJOIN</span></div>");
+            this.controlsBody.append("<div style=\"position: absolute; top: 98px;width:100%;;text-align: center;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">STROBE</span></div>");
+            this.autowootBtn = $("<div style=\"top: 24px;\" class=\"pe_control-btn\">\
                 <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
                 <div style=\"top: 1px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
                 <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Enable</span></div></div>").appendTo(this.controlsBody);
             this.autowootBtn.click(this.proxy.ctrlAutowoot);
-            this.autojoinBtn = $("<div style=\"top: 75px;\" class=\"pe_control-btn\">\
+            this.autojoinBtn = $("<div style=\"top: 71px;\" class=\"pe_control-btn\">\
                 <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
                 <div style=\"top: 1px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
                 <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Enable</span></div></div>").appendTo(this.controlsBody);
             this.autojoinBtn.click(this.proxy.ctrlAutojoin);
+            this.strobeBtn = $("<div style=\"top: 118px;\" class=\"pe_control-btn\">\
+                <div class=\"frame-background\" style=\"background-color: #73A024;\"></div>\
+                <div style=\"top: 1px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\">\
+                <span style=\"color: #FFF;text-shadow: 1px 1px #303030;\">Enable</span></div></div>").appendTo(this.controlsBody);
+            this.strobeBtn.click(this.proxy.strobeToggle);
             this.infoBox = $("<div style=\"position: absolute;left: 105px;top: 10px;width: 195px;\"></div>").appendTo(this.controlPanel);
             this.infoBody = $("<div id=\"pe_info-body\"></div>").appendTo(this.infoBox);
             this.infoPlace = $("<div style=\"position: absolute; top: 45px;width:100%;text-align: center;\"><span style=\"color: #B9B9B9;\">You are in booth:</span></div>").appendTo(this.infoBody);
@@ -275,6 +281,19 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                 this.onRoomPropsUpdate();
             }else{
                 this.lockButton.hide();
+            }
+        },
+        strobeToggle: function () {
+            if(!this.strobeState){
+                this.strobeState = true;
+                AudienceView.strobeMode(this.strobeState);
+                this.strobeBtn.find("span").html("Disable");
+                this.strobeBtn.find(".frame-background").css("background-color", "#A33A46");
+            }else{
+                this.strobeState = false;
+                AudienceView.strobeMode(this.strobeState);
+                this.strobeBtn.find("span").html("Enable");
+                this.strobeBtn.find(".frame-background").css("background-color", "#73A024");
             }
         },
         onRoomPropsUpdate: function () {
