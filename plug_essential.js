@@ -136,7 +136,7 @@ define('plugEssential/Config', {
     }
 });
 
-define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], function (Class, Config) {
+define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/utils/AvatarManifest'], function (Class, Config, Avatar) {
     return Class.extend({
         version: {
             major: 0,
@@ -197,24 +197,25 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
             this.userdetailBox = $("<div id=\"pe_user-detail-box\"></div>").appendTo(this.controlPanel);
             this.userdetailHeader = $("<div class=\"meta-header\" id=\"pe_user-detail-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">USER DETAIL</span></div>").appendTo(this.userdetailBox);
             this.userdetailBody = $("<div id=\"pe_user-detail-body\"></div>").appendTo(this.userdetailBox);
-            this.userdetailBody.append("<div style=\"position: absolute; top: 6px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">USERNAME</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 50px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">RANK</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 90px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">STATUS</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 130px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">JOIN DATE</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 10px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">DJ POINTS</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 45px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">LISTENER POINTS</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 80px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">CURATOR POINTS</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 115px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">FANS</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 150px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">SCORE</span></div>");
-            this.detailUsername = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 25px; left: 8px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailRank = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 66px; left: 8px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailStatus = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 106px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailJoined = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 146px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailDjPoints = $("<div class=\"meta-value hnb\" style=\" top: 23px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailListenerPoints = $("<div class=\"meta-value hnb\" style=\" top: 58px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailCuratorPoints = $("<div class=\"meta-value hnb\" style=\" top: 93px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailFans = $("<div class=\"meta-value hnb\" style=\" top: 128px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailScore = $("<div class=\"meta-value hnb\" style=\" top: 163px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
+            //this.userdetailBody.append("<div style=\"position: absolute; top: 6px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">USERNAME</span></div>");
+            //this.userdetailBody.append("<div style=\"position: absolute; top: 50px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">RANK</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 60px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">STATUS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 100px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">JOIN DATE</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 63px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">DJ POINTS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 98px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">LISTENER POINTS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 133px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">CURATOR POINTS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 168px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">FANS</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 203px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">SCORE</span></div>");
+            this.detailAvatar = $("<div class=\"meta-value hnb\" style=\"height: 50px;width: 244px;top: 8px; left: 8px;border-bottom: 1px solid #333;\"><img /></div>").appendTo(this.userdetailBody);
+            this.detailUsername = $("<div class=\"meta-value hnb\" style=\"top: 10px; left: 60px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailRank = $("<div class=\"meta-value hnb\" style=\"top: 30px; left: 60px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailStatus = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 76px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailJoined = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 116px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailDjPoints = $("<div class=\"meta-value hnb\" style=\" top: 76px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailListenerPoints = $("<div class=\"meta-value hnb\" style=\" top: 111px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailCuratorPoints = $("<div class=\"meta-value hnb\" style=\" top: 146px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailFans = $("<div class=\"meta-value hnb\" style=\" top: 181px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailScore = $("<div class=\"meta-value hnb\" style=\" top: 216px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.topHistoryBox = $("<div id=\"pe_top-history-box\"></div>").appendTo(this.controlPanel);
             this.topHistoryHeader = $("<div class=\"meta-header\" id=\"pe_top-history-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">TOP FROM HISTORY</span></div>").appendTo(this.topHistoryBox);
             this.topImage = $("<img id=\"pe_top-history-image\">").appendTo(this.topHistoryBox);
@@ -377,6 +378,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config'], functi
                 this.detailOf = user.id;
             }
             this.detailUsername.find("span").html(user.username);
+            this.detailAvatar.find("img").attr("src", Avatar.getThumbUrl(user.avatarID));
             var status = user.status;
             var statusSpan = this.detailStatus.find("span");
             if (status == API.STATUS.AVAILABLE) {
