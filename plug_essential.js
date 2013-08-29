@@ -138,7 +138,7 @@ define('plugEssential/Config', {
     }
 });
 
-define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/utils/AvatarManifest'], function (Class, Config, Avatar) {
+define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/utils/AvatarManifest', 'app/models/RoomModel', 'app/net/Socket'], function (Class, Config, Avatar, RoomModel, Socket) {
     return Class.extend({
         version: {
             major: 0,
@@ -159,7 +159,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                 refreshUserlist: $.proxy(this.refreshUserlist, this),
                 onUserJoin: $.proxy(this.onUserJoin, this),
                 onUserLeave: $.proxy(this.onUserLeave, this),
-                refreshInfo: $.proxy(this.refreshInfo, this)
+                refreshInfo: $.proxy(this.refreshInfo, this),
+                onRoomPropsUpdate: $.proxy(this.onRoomPropsUpdate, this)
             };
             this.userlist = {}
             this.autowootActive = false;
@@ -186,6 +187,11 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             API.on(API.USER_LEAVE, this.proxy.onUserLeave);
             API.on(API.WAIT_LIST_UPDATE, this.proxy.refreshInfo);
             API.on(API.DJ_UPDATE, this.proxy.refreshInfo);
+            var roomPropsUpdate = Socket.listener.roomPropsUpdate;
+            Socket.listener.roomPropsUpdate = $.proxy(function(e) {
+                roomPropsUpdate(e);
+                this.proxy.onRoomPropsUpdate();
+            }, this);
         },
         initGui: function () {
             this.controlPanelBtn = $("<div id=\"pe_control-panel-btn\"></div>").appendTo(Config.plug.roomView);
@@ -260,6 +266,22 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                 });
             }else{
                 this.skipButton.hide();
+            }
+            this.lockButton = $("<div style=\"position: absolute; width: 70px; height: 25px; padding: 0;display: block;left: 675px;top: 360px;text-align: center;border: 1px solid #000000;z-index: 1000000;cursor: pointer;\"><div class=\"frame-background\" style=\"background-color: #B9872F;opacity: 1;\"></div><div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\"><span style=\"color: #463116;text-shadow: 1px 1px #DDCE90;font-size: 15px;font-weight: bold;\">Unlock</span></div></div>").appendTo(this.controlPanel);
+            if(API.getUser().permission>=API.ROLE.MANAGER){
+                this.lockButton.click(function () {
+                    API.moderateRoomProps(!RoomModel.get("boothLocked"), RoomModel.get("waitListEnabled"));
+                });
+                this.onRoomPropsUpdate();
+            }else{
+                this.lockButton.hide();
+            }
+        },
+        onRoomPropsUpdate: function () {
+            if(RoomModel.get("boothLocked")){
+                this.lockButton.find("span").html("Unlock");
+            }else{
+                this.lockButton.find("span").html("Lock");
             }
         },
         togglePanel: function () {
