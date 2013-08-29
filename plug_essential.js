@@ -334,6 +334,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                 } else if (user.relationship == 3) {
                     userElement.css("font-weight", "bold");
                 } else {
+                    langElement.css("opacity", ".5");
                     userElement.css("opacity", ".5");
                 }
                 var role = user.permission;
