@@ -12,18 +12,20 @@ Features
     * Colors by rank
     * Font style by relationship
     * Chat mention link
+    * Video response by background
 - Detailed user information
+    * Language
     * Join date
     * DJ points
     * Listener points
     * Curator points
     * Score
 - Top video from history
+- Shortcut buttons for DJ booth (lock/unlock booth, skip dj)
     
 ### Planned
 - User filter for userlist
 - Estimated time until playing
-- Shortcut buttons for DJ booth (lock booth, skip dj, remove dj)
 
 How to use
 ---------
