@@ -395,10 +395,13 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
         refreshTop: function () {
             setTimeout($.proxy(function() {
                 var top = API.getHistory()[0];
+                var topScore = ((top.room.positive+top.room.curates)-top.room.negative)/API.getUsers().length;
                 for(var i=1;i<API.getHistory().length;i++){
                     var entry = API.getHistory()[i];
-                    if (!top || ((entry.room.positive+entry.room.curates)-entry.room.negative)>=((top.room.positive+top.room.curates)-top.room.negative)) {
+                    var entryScore = ((entry.room.positive+entry.room.curates)-entry.room.negative)/entry.room.listeners;
+                    if (!top || entryScore>=topScore) {
                         top = entry;
+                        topScore = entryScore;
                     }
                 }
                 if (top) {
@@ -414,7 +417,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                         this.topInfo.css("left", this.topImage.width()-3);
                     }, this));
                 }
-            }, this), 3000);
+            }, this), 1000);
         },
         refreshUserDetail: function (user) {
             if(typeof(this.detailOf) === 'undefined'){
