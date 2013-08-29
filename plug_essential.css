@@ -119,15 +119,15 @@
 }
 
 .pe_woot {
-    background-color: rgba(0,255,0,.2);
+    background-color: rgba(0,255,0,.15);
 }
 
 .pe_meh {
-    background-color: rgba(255,0,0,.2);
+    background-color: rgba(255,0,0,.15);
 }
 
 .pe_dj {
-    background-color: rgba(0,214,255,.2);
+    background-color: rgba(0,214,255,.15);
 }
 
 .pe_user-row:hover {
