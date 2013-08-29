@@ -314,6 +314,10 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                     userRow.find("td").addClass("pe_meh");
                 }
             }
+            var langElement = $("<span class=\"pe_flag\" style=\"float: left;margin: 2px 0 0 2px;\"></span>").appendTo(nameCell);
+            if($.inArray(langToCountry[user.language].toLowerCase(), possibleFlags)){
+                langElement.addClass("pe_flag-"+langToCountry[user.language].toLowerCase());
+            }
             var userElement = $("<span style=\"padding: 3px;text-shadow: 1px 1px #111;cursor: pointer;\">"+user.username+"</span>").appendTo(nameCell);
             userElement.click($.proxy(function(){
                 this.refreshUserDetail(user);
@@ -370,7 +374,6 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
         },
         refreshTop: function () {
             setTimeout($.proxy(function() {
-                console.log("len: "+API.getHistory().length+" media: "+API.getMedia());
                 var top;
                 for(var i=1;i<API.getHistory().length;i++){
                     var entry = API.getHistory()[i];
@@ -379,7 +382,6 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                     }
                 }
                 if (top) {
-                    console.log("new top: "+top);
                     this.topImage.attr("src", top.media.image).load($.proxy(function() {
                         this.topInfo.css("left", this.topImage.width()-3);
                         this.topAuthor.find("span").html(top.media.author);
