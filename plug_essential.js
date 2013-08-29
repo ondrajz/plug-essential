@@ -138,7 +138,7 @@ define('plugEssential/Config', {
     }
 });
 
-define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/utils/AvatarManifest', 'app/models/RoomModel', 'app/net/Socket', 'app/views/room/AudienceView'], function (Class, Config, Avatar, RoomModel, Socket, AudienceView) {
+define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/utils/AvatarManifest', 'app/models/RoomModel', 'app/net/Socket', 'app/views/room/AudienceView', 'app/facades/ChatFacade'], function (Class, Config, Avatar, RoomModel, Socket, AudienceView, ChatFacade) {
     return Class.extend({
         version: {
             major: 0,
@@ -205,18 +205,19 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             this.userdetailHeader = $("<div class=\"meta-header\" id=\"pe_user-detail-header\"><span id=\"room-score-perc\" class=\"hnb\" style=\"left:0;\">USER DETAIL</span></div>").appendTo(this.userdetailBox);
             this.userdetailBody = $("<div id=\"pe_user-detail-body\"></div>").appendTo(this.userdetailBox);
             this.userdetailBody.append("<div style=\"position: absolute; top: 60px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">STATUS</span></div>");
-            this.userdetailBody.append("<div style=\"position: absolute; top: 100px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">JOIN DATE</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 95px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">JOIN DATE</span></div>");
+            this.userdetailBody.append("<div style=\"position: absolute; top: 130px; left: 8px;\"><span style=\"font-size: 10px;color: #858585;font-weight: bold;\">LANGUAGE</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 63px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">DJ POINTS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 98px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">LISTENER POINTS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 133px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">CURATOR POINTS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 168px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">FANS</span></div>");
             this.userdetailBody.append("<div style=\"position: absolute; top: 203px; left: 150px; width: 100px;\"><span style=\"font-size: 9px;color: #858585;font-weight: bold;float: right;\">SCORE</span></div>");
-            this.detailFlag = $("<div class=\"meta-value hnb\" style=\"top: 8px; left: 170px; width: 80px;\"><span></span></div>").appendTo(this.userdetailBody);
             this.detailAvatar = $("<div class=\"meta-value hnb\" style=\"height: 50px;width: 244px;top: 8px; left: 8px;border-bottom: 1px solid #333;\"><img /></div>").appendTo(this.userdetailBody);
             this.detailUsername = $("<div class=\"meta-value hnb\" style=\"top: 8px; left: 60px;\"><span style=\"font-size: 16px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailRank = $("<div class=\"meta-value hnb\" style=\"top: 25px; left: 60px;\"><span style=\"font-size: 14px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailStatus = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 76px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
-            this.detailJoined = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 116px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailJoined = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 111px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
+            this.detailLanguage = $("<div class=\"meta-value hnb\" style=\"width: 250px;top: 146px; left: 8px;\"><span style=\"font-size: 12px;\"></span></div>").appendTo(this.userdetailBody);
             this.detailDjPoints = $("<div class=\"meta-value hnb\" style=\" top: 76px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailListenerPoints = $("<div class=\"meta-value hnb\" style=\" top: 111px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
             this.detailCuratorPoints = $("<div class=\"meta-value hnb\" style=\" top: 146px; left: 170px; width: 80px;\"><span style=\"font-size: 14px;float: right;\"></span></div>").appendTo(this.userdetailBody);
@@ -319,6 +320,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             this.userlist[user.id] = userRow
             var nameCell = $("<td class=\"pe_user-cell-name\"></td>").appendTo(userRow);
             var extraCell = $("<td class=\"pe_user-cell-extra\"></td>").appendTo(userRow);
+            var langElement = $("<span></span>").appendTo(extraCell);
+            langElement.html("["+user.language+"]");
             var mentionBtn = $("<span style=\"cursor: pointer;font-weight: bold;padding: 0 3px;\">@</span>").appendTo(extraCell);
             mentionBtn.click(function () {
                 Config.plug.chatInput.val("@"+user.username+" ");
@@ -332,10 +335,6 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                 }else{
                     userRow.find("td").addClass("pe_meh");
                 }
-            }
-            var langElement = $("<span class=\"pe_flag\" style=\"float: left;margin: 2px 0 0 2px;\"></span>").appendTo(nameCell);
-            if((user.language in langToCountry) && $.inArray(langToCountry[user.language].toLowerCase(), possibleFlags)){
-                langElement.addClass("pe_flag-"+langToCountry[user.language].toLowerCase());
             }
             var userElement = $("<span style=\"padding: 3px;text-shadow: 1px 1px #111;cursor: pointer;\">"+user.username+"</span>").appendTo(nameCell);
             userElement.click($.proxy(function(){
@@ -355,6 +354,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                 } else {
                     langElement.css("opacity", ".5");
                     userElement.css("opacity", ".5");
+                    mentionBtn.css("opacity", ".5");
                 }
                 var role = user.permission;
                 if (role == API.ROLE.ADMIN) {
@@ -425,13 +425,23 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             }else{
                 this.detailOf = user.id;
             }
+            this.detailLanguage.find("span").html("?");
+            for(i in ChatFacade.uiLanguages){
+                var lang = ChatFacade.uiLanguages[i];
+                if(lang.value === user.language){
+                    this.detailLanguage.find("span").html(lang.label);
+                    break;
+                }
+            }
+            for(i in ChatFacade.chatLanguages){
+                var lang = ChatFacade.chatLanguages[i];
+                if(lang.value === user.language){
+                    this.detailLanguage.find("span").html(lang.label);
+                    break;
+                }
+            }
             this.detailUsername.find("span").html(user.username);
             this.detailAvatar.find("img").attr("src", Avatar.getThumbUrl(user.avatarID));
-            this.detailFlag.find("span").removeClass();
-            if($.inArray(langToCountry[user.language].toLowerCase(), possibleFlags)){
-                this.detailFlag.find("span").addClass("pe_flag");
-                this.detailFlag.find("span").addClass("pe_flag-"+langToCountry[user.language].toLowerCase());
-            }
             var status = user.status;
             var statusSpan = this.detailStatus.find("span");
             if (status == API.STATUS.AVAILABLE) {
