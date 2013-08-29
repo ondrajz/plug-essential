@@ -174,9 +174,6 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             this.refreshTop();
             this.refreshInfo();
         },
-        lateInit: function () {
-            this.refreshTop();
-        },
         close: function () {
             console.log("Closing Plug Essential!");
             this.controlPanel.remove();
@@ -263,8 +260,8 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             this.strobeBtn.click(this.proxy.strobeToggle);
             this.infoBox = $("<div style=\"position: absolute;left: 105px;top: 10px;width: 195px;\"></div>").appendTo(this.controlPanel);
             this.infoBody = $("<div id=\"pe_info-body\"></div>").appendTo(this.infoBox);
-            this.infoPlace = $("<div style=\"position: absolute; top: 45px;width:100%;text-align: center;\"><span style=\"color: #B9B9B9;\">You are in booth:</span></div>").appendTo(this.infoBody);
-            this.infoPosition = $("<div style=\"position: absolute; top:65px;width:100%;text-align: center;\"><span style=\"font-size: 20px;font-weight:bold;\">You are in booth:</span></div>").appendTo(this.infoBody);
+            this.infoPlace = $("<div style=\"position: absolute; top: 45px;width:100%;text-align: center;\"><span style=\"color: #B9B9B9;\"></span></div>").appendTo(this.infoBody);
+            this.infoPosition = $("<div style=\"position: absolute; top:65px;width:100%;text-align: center;\"><span style=\"font-size: 20px;font-weight:bold;\"></span></div>").appendTo(this.infoBody);
             this.skipButton = $("<div style=\"position: absolute; width: 60px; height: 25px; padding: 0;display: block;left: 455px;top: 360px;text-align: center;border: 1px solid #000000;z-index: 1000000;cursor: pointer;\"><div class=\"frame-background\" style=\"background-color: #B92F40;opacity: 1;\"></div><div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\"><span style=\"color: #461616;text-shadow: 1px 1px #DD9090;font-size: 15px;font-weight: bold;\">Skip</span></div></div>").appendTo(this.controlPanel);
             if(API.getUser().permission>=API.ROLE.BOUNCER){
                 this.skipButton.click(function() {
@@ -315,6 +312,9 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             }
         },
         addUserItem: function (user) {
+            if(typeof(user)==='undefined'){
+                return;
+            }
             var userRow = $("<tr class=\"pe_user-row\"></tr>").appendTo(this.userlistTable);
             this.userlist[user.id] = userRow
             var nameCell = $("<td class=\"pe_user-cell-name\"></td>").appendTo(userRow);
@@ -334,7 +334,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                 }
             }
             var langElement = $("<span class=\"pe_flag\" style=\"float: left;margin: 2px 0 0 2px;\"></span>").appendTo(nameCell);
-            if($.inArray(langToCountry[user.language].toLowerCase(), possibleFlags)){
+            if((user.language in langToCountry) && $.inArray(langToCountry[user.language].toLowerCase(), possibleFlags)){
                 langElement.addClass("pe_flag-"+langToCountry[user.language].toLowerCase());
             }
             var userElement = $("<span style=\"padding: 3px;text-shadow: 1px 1px #111;cursor: pointer;\">"+user.username+"</span>").appendTo(nameCell);
@@ -394,7 +394,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
         },
         refreshTop: function () {
             setTimeout($.proxy(function() {
-                var top;
+                var top = API.getHistory()[0];
                 for(var i=1;i<API.getHistory().length;i++){
                     var entry = API.getHistory()[i];
                     if (!top || ((entry.room.positive+entry.room.curates)-entry.room.negative)>=((top.room.positive+top.room.curates)-top.room.negative)) {
@@ -402,15 +402,16 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
                     }
                 }
                 if (top) {
+                    this.topInfo.css("left", "80px");
+                    this.topAuthor.find("span").html(top.media.author);
+                    this.topTitle.find("span").html(top.media.title);
+                    this.topScore.find(".pe_top-score-img").show();
+                    this.topWoot.html(top.room.positive);
+                    this.topMeh.html(top.room.negative);
+                    this.topCurate.html(top.room.curates);
+                    this.topPlayedBy.html(top.user.username);
                     this.topImage.attr("src", top.media.image).load($.proxy(function() {
                         this.topInfo.css("left", this.topImage.width()-3);
-                        this.topAuthor.find("span").html(top.media.author);
-                        this.topTitle.find("span").html(top.media.title);
-                        this.topScore.find(".pe_top-score-img").show();
-                        this.topWoot.html(top.room.positive);
-                        this.topMeh.html(top.room.negative);
-                        this.topCurate.html(top.room.curates);
-                        this.topPlayedBy.html(top.user.username);
                     }, this));
                 }
             }, this), 3000);
@@ -594,7 +595,7 @@ define('plugEssential/Loader', ['app/base/Class', 'plugEssential/Model'], functi
             this.initTimer = setInterval($.proxy(this.tryInit, this), 1000);
         },
         tryInit: function () {
-            if (typeof (API) === 'undefined' || typeof (API.getHistory) === 'undefined' || typeof (API.getHistory()) === 'undefined') {
+            if (typeof (API) === 'undefined' || typeof (API.getHistory) === 'undefined' || typeof (API.getHistory()) === 'undefined' || API.getHistory().length<=0) {
                 console.log("not ready");
                 return;
             }
