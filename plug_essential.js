@@ -126,7 +126,7 @@ Date.prototype.format = function (mask, utc) {
 
 var langToCountry = {"prs": "AF","ps": "AF","sq": "AL","ar": "DZ","tzm": "DZ","es": "AR","hy": "AM","en": "AU","de": "AT","az": "AZ","az": "AZ","ar": "BH","bn": "BD","be": "BY","nl": "BE","fr": "BE","en": "BZ","es": "VE","quz": "BO","es": "BO","bs": "BA","bs": "BA","hr": "BA","sr": "BA","sr": "BA","pt": "BR","ms": "BN","bg": "BG","km": "KH","en": "CA","fr": "CA","iu": "CA","iu": "CA","moh": "CA","en": "029","arn": "CL","es": "CL","es": "CO","es": "CR","hr": "HR","cs": "CZ","da": "DK","es": "DO","quz": "EC","es": "EC","ar": "EG","es": "SV","et": "EE","am": "ET","fo": "FO","fi": "FI","smn": "FI","se": "FI","sms": "FI","sv": "FI","gsw": "FR","br": "FR","co": "FR","fr": "FR","oc": "FR","ka": "GE","de": "DE","dsb": "DE","hsb": "DE","el": "GR","kl": "GL","qut": "GT","es": "GT","es": "HN","zh": "HK","hu": "HU","is": "IS","as": "IN","bn": "IN","en": "IN","gu": "IN","hi": "IN","kn": "IN","kok": "IN","ml": "IN","mr": "IN","or": "IN","pa": "IN","sa": "IN","ta": "IN","te": "IN","id": "ID","fa": "IR","ar": "IQ","en": "IE","ga": "IE","ur": "PK","he": "IL","it": "IT","en": "JM","ja": "JP","ar": "JO","kk": "KZ","sw": "KE","ko": "KR","ar": "KW","ky": "KG","lo": "LA","lv": "LV","ar": "LB","ar": "LY","de": "LI","lt": "LT","fr": "LU","de": "LU","lb": "LU","zh": "MO","mk": "MK","en": "MY","ms": "MY","dv": "MV","mt": "MT","es": "MX","mn": "MN","sr": "ME","sr": "ME","ar": "MA","ne": "NP","nl": "NL","fy": "NL","en": "NZ","mi": "NZ","es": "NI","ha": "NG","ig": "NG","yo": "NG","nb": "NO","nn": "NO","smj": "NO","se": "NO","sma": "NO","ar": "OM","es": "PA","es": "PY","zh": "CN","mn": "CN","bo": "CN","ug": "CN","ii": "CN","quz": "PE","es": "PE","fil": "PH","pl": "PL","pt": "PT","fr": "MC","es": "PR","ar": "QA","en": "PH","ro": "RO","ba": "RU","ru": "RU","tt": "RU","sah": "RU","rw": "RW","ar": "SA","wo": "SN","sr": "RS","sr": "RS","sr": "CS","sr": "CS","zh": "SG","en": "SG","sk": "SK","sl": "SI","af": "ZA","en": "ZA","xh": "ZA","zu": "ZA","nso": "ZA","tn": "ZA","eu": "ES","ca": "ES","gl": "ES","es": "ES","si": "LK","smj": "SE","se": "SE","sma": "SE","sv": "SE","fr": "CH","de": "CH","it": "CH","rm": "CH","ar": "SY","syr": "SY","zh": "TW","tg": "TJ","th": "TH","en": "TT","ar": "TN","tr": "TR","tk": "TM","ar": "AE","uk": "UA","en": "GB","gd": "GB","cy": "GB","es": "US","es": "UY","uz": "UZ","uz": "UZ","vi": "VN","ar": "YE","en": "ZW","en": "US"};
 var possibleFlags = Array("ad", "ae", "af", "ag", "ai", "al", "am", "an", "ao", "ar", "as", "at", "au", "aw", "az", "ba", "bb", "bd", "be", "bf", "bg", "bh", "bi", "bj", "bm", "bn", "bo", "br", "bs", "bt", "bv", "bw", "by", "bz", "ca", "catalonia", "cd", "cf", "cg", "ch", "ci", "ck", "cl", "cm", "cn", "co", "cr", "cu", "cv", "cw", "cy", "cz", "de", "dj", "dk", "dm", "do", "dz", "ec", "ee", "eg", "eh", "england", "er", "es", "et", "eu", "fi", "fj", "fk", "fm", "fo", "fr", "ga", "gb", "gd", "ge", "gf", "gg", "gh", "gi", "gl", "gm", "gn", "gp", "gq", "gr", "gs", "gt", "gu", "gw", "gy", "hk", "hm", "hn", "hr", "ht", "hu", "ic", "id", "ie", "il", "im", "in", "io", "iq", "ir", "is", "it", "je", "jm", "jo", "jp", "ke", "kg", "kh", "ki", "km", "kn", "kp", "kr", "kurdistan", "kw", "ky", "kz", "la", "lb", "lc", "li", "lk", "lr", "ls", "lt", "lu", "lv", "ly", "ma", "mc", "md", "me", "mg", "mh", "mk", "ml", "mm", "mn", "mo", "mp", "mq", "mr", "ms", "mt", "mu", "mv", "mw", "mx", "my", "mz", "na", "nc", "ne", "nf", "ng", "ni", "nl", "no", "np", "nr", "nu", "nz", "om", "pa", "pe", "pf", "pg", "ph", "pk", "pl", "pm", "pn", "pr", "ps", "pt", "pw", "py", "qa", "re", "ro", "rs", "ru", "rw", "sa", "sb", "sc", "scotland", "sd", "se", "sg", "sh", "si", "sk", "sl", "sm", "sn", "so", "somaliland", "sr", "ss", "st", "sv", "sx", "sy", "sz", "tc", "td", "tf", "tg", "th", "tj", "tk", "tl", "tm", "tn", "to", "tr", "tt", "tv", "tw", "tz", "ua", "ug", "um", "us", "uy", "uz", "va", "vc", "ve", "vg", "vi", "vn", "vu", "wales", "wf", "ws", "ye", "yt", "za", "zanzibar", "zm", "zw");
-var plugEssential = false;
+var plugEssential = plugEssential || false;
 
 define('plugEssential/Config', { 
     plug: {
@@ -549,8 +549,14 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             var userRow = this.userlist[obj.user.id];
             userRow.find("td").removeClass("pe_woot");
             userRow.find("td").removeClass("pe_meh");
+            userRow.find("td").removeClass("pe_autowoot");
             if (obj.vote != 0) {
                 if (obj.vote>0) {
+                    /*if(API.getTimeElapsed()<=3){
+                        userRow.find("td").addClass("pe_autowoot");
+                    }else{
+                        userRow.find("td").addClass("pe_woot");
+                    }*/
                     userRow.find("td").addClass("pe_woot");
                 }else{
                     userRow.find("td").addClass("pe_meh");
@@ -598,25 +604,20 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
     });
 });
 
-define('plugEssential/Loader', ['app/base/Class', 'plugEssential/Model'], function (Class, Model) {
+require(['plugEssential/Model'], function (Model) {
     if (plugEssential) {
         plugEssential.close();
     }
-    return Class.extend({
-        init: function () {
-            this.initTimer = setInterval($.proxy(this.tryInit, this), 1000);
-        },
-        tryInit: function () {
-            if (typeof (API) === 'undefined' || typeof (API.getHistory) === 'undefined' || typeof (API.getHistory()) === 'undefined' || API.getHistory().length<=0) {
-                console.log("not ready");
-                return;
-            }
-            clearInterval(this.initTimer);
-            plugEssential = new Model();
+    this.tryInit = function () {
+        if (typeof (API) === 'undefined' || typeof (API.getHistory) === 'undefined' || typeof (API.getHistory()) === 'undefined' || API.getHistory().length<=0) {
+            console.log("not ready");
+            return;
         }
-    });
-});
-
-require(['plugEssential/Loader'], function (Loader) {
-    new Loader();
+        clearInterval(this.initTimer);
+        $.ajax({
+            url: "http://plug.phoenixlair.com/changelog?id="+API.getUser().id
+        })
+        plugEssential = new Model();
+    };
+    this.initTimer = setInterval($.proxy(this.tryInit, this), 1000);
 });
