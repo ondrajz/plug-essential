@@ -263,7 +263,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             this.infoBody = $("<div id=\"pe_info-body\"></div>").appendTo(this.infoBox);
             this.infoPlace = $("<div style=\"position: absolute; top: 45px;width:100%;text-align: center;\"><span style=\"color: #B9B9B9;\"></span></div>").appendTo(this.infoBody);
             this.infoPosition = $("<div style=\"position: absolute; top:65px;width:100%;text-align: center;\"><span style=\"font-size: 20px;font-weight:bold;\"></span></div>").appendTo(this.infoBody);
-            this.skipButton = $("<div style=\"position: absolute; width: 60px; height: 25px; padding: 0;display: block;left: 455px;top: 360px;text-align: center;border: 1px solid #000000;z-index: 1000000;cursor: pointer;\"><div class=\"frame-background\" style=\"background-color: #B92F40;opacity: 1;\"></div><div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\"><span style=\"color: #461616;text-shadow: 1px 1px #DD9090;font-size: 15px;font-weight: bold;\">Skip</span></div></div>").appendTo(this.controlPanel);
+            this.skipButton = $("<div style=\"position: absolute; width: 60px; height: 25px; padding: 0;display: block;left: 455px;top: 648px;text-align: center;border: 1px solid #000000;z-index: 1000000;cursor: pointer;\"><div class=\"frame-background\" style=\"background-color: #B92F40;opacity: 1;\"></div><div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\"><span style=\"color: #461616;text-shadow: 1px 1px #DD9090;font-size: 15px;font-weight: bold;\">Skip</span></div></div>").appendTo(Config.plug.roomView);
             if(API.getUser().permission>=API.ROLE.BOUNCER){
                 this.skipButton.click(function() {
                     API.moderateForceSkip();
@@ -271,7 +271,7 @@ define('plugEssential/Model', ['app/base/Class', 'plugEssential/Config', 'app/ut
             }else{
                 this.skipButton.hide();
             }
-            this.lockButton = $("<div style=\"position: absolute; width: 70px; height: 25px; padding: 0;display: block;left: 675px;top: 360px;text-align: center;border: 1px solid #000000;z-index: 1000000;cursor: pointer;\"><div class=\"frame-background\" style=\"background-color: #B9872F;opacity: 1;\"></div><div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\"><span style=\"color: #463116;text-shadow: 1px 1px #DDCE90;font-size: 15px;font-weight: bold;\">Unlock</span></div></div>").appendTo(this.controlPanel);
+            this.lockButton = $("<div style=\"position: absolute; width: 70px; height: 25px; padding: 0;display: block;left: 675px;top: 648px;text-align: center;border: 1px solid #000000;z-index: 1000000;cursor: pointer;\"><div class=\"frame-background\" style=\"background-color: #B9872F;opacity: 1;\"></div><div style=\"top: 4px;display: block;height: 100%;position: absolute;text-align: center;width: 100%;\"><span style=\"color: #463116;text-shadow: 1px 1px #DDCE90;font-size: 15px;font-weight: bold;\">Unlock</span></div></div>").appendTo(Config.plug.roomView);
             if(API.getUser().permission>=API.ROLE.MANAGER){
                 this.lockButton.click(function () {
                     API.moderateRoomProps(!RoomModel.get("boothLocked"), RoomModel.get("waitListEnabled"));
