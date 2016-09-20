@@ -1,6 +1,8 @@
 Plug Essential
 ==========
 
+![preview](website/static/preview.png)
+
 Plug Essential is a browser javascript plugin for plug.dj website.
 
 Features
